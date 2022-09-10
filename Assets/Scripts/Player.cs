@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     private bool fDown;
     private float fireDelay;
     private bool isFireReady;
-    
+    private bool isBorder;
     private bool rDown;
     private bool isRelaod;
     
@@ -101,7 +101,8 @@ public class Player : MonoBehaviour
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         if (isDodge) moveVec = dodgeVec;
         if (isSwap || !isFireReady || isRelaod) moveVec = Vector3.zero;
-        transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
+        if(!isBorder)
+            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
         anim.SetBool("isRun", moveVec != Vector3.zero); 
         anim.SetBool("isWalk", wDown); 
     }
@@ -141,7 +142,7 @@ public class Player : MonoBehaviour
         if (equipWeapon == null) return;
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
-        if (fDown && isFireReady && !isDodge && !isSwap)
+        if (fDown && isFireReady && !isDodge && !isSwap && !isRelaod)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type  == Weapon.Type.Melee ? "doSwing" : "doShot");
@@ -270,6 +271,22 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+    }
+
+    void FreezeRotation()
+    {
+        rbody.angularVelocity = Vector3.zero;
+    }
+    
+    void StopToWall()
+    {
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.magenta);
+        isBorder = Physics.Raycast(transform.position, moveVec,5, LayerMask.GetMask("Wall"));
+    }
+    private void FixedUpdate()
+    {
+        FreezeRotation();
+        StopToWall();
     }
 
     private void OnTriggerStay(Collider other)
