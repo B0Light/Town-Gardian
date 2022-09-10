@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.UIElements;
@@ -8,6 +9,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Camera followCamera;
     public int ammo = 0;
     public int coin = 0;
     public int health = 100;
@@ -35,6 +37,13 @@ public class Player : MonoBehaviour
     private bool sDown1;
     private bool sDown2;
     private bool sDown3;
+
+    private bool fDown;
+    private float fireDelay;
+    private bool isFireReady;
+    
+    private bool rDown;
+    private bool isRelaod;
     
     private bool isJump;
     private bool isDodge;
@@ -45,13 +54,18 @@ public class Player : MonoBehaviour
     private Rigidbody rbody;
 
     private GameObject nearObject;
-    private GameObject equipWeapon;
+    private Weapon equipWeapon;
     private int equipWeaponIndex = -1;
     // Start is called before the first frame update
     void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         rbody = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        isFireReady = true;
     }
 
     // Update is called once per frame
@@ -61,6 +75,8 @@ public class Player : MonoBehaviour
         Move();
         Turn();
         Jump();
+        Attack();
+        Reload();
         Dodge();
         Swap();
         Interaction();
@@ -72,6 +88,8 @@ public class Player : MonoBehaviour
         vAxis = Input.GetAxisRaw("Vertical");
         wDown = Input.GetButton("Walk");
         jDown = Input.GetButtonDown("Jump");
+        fDown = Input.GetButton("Fire1");
+        rDown = Input.GetButtonDown("Reload");
         iDown = Input.GetButtonDown("Interaction");
         sDown1 = Input.GetButtonDown("Swap1");
         sDown2 = Input.GetButtonDown("Swap2");
@@ -82,7 +100,7 @@ public class Player : MonoBehaviour
     {
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         if (isDodge) moveVec = dodgeVec;
-        if (isSwap) moveVec = Vector3.zero;
+        if (isSwap || !isFireReady || isRelaod) moveVec = Vector3.zero;
         transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
         anim.SetBool("isRun", moveVec != Vector3.zero); 
         anim.SetBool("isWalk", wDown); 
@@ -90,7 +108,21 @@ public class Player : MonoBehaviour
 
     void Turn()
     {
+        //키보드 회전
          transform.LookAt(transform.position + moveVec); //나아가는 방향으로 바라 봄 
+         //마우스 회전
+         if (fDown)
+         { 
+             Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
+             RaycastHit rayHit;
+             if (Physics.Raycast(ray, out rayHit, 100))
+             {
+                Vector3 nextVec = rayHit.point - transform.position;
+                nextVec.y = 0;
+                transform.LookAt(transform.position + nextVec);
+             }
+         }
+         
     }
 
     void Jump()
@@ -103,6 +135,40 @@ public class Player : MonoBehaviour
             isJump = true;
         }
     }
+
+    void Attack()
+    {
+        if (equipWeapon == null) return;
+        fireDelay += Time.deltaTime;
+        isFireReady = equipWeapon.rate < fireDelay;
+        if (fDown && isFireReady && !isDodge && !isSwap)
+        {
+            equipWeapon.Use();
+            anim.SetTrigger(equipWeapon.type  == Weapon.Type.Melee ? "doSwing" : "doShot");
+            fireDelay = 0;
+        }
+    }
+
+    void Reload()
+    {
+        if (equipWeapon == null || equipWeapon.type == Weapon.Type.Melee) return;
+        if (ammo == 0) return;
+        if (rDown && !isDodge && !isJump && !isSwap && isFireReady)
+        {
+            anim.SetTrigger("doReload");
+            isRelaod = true;
+            
+            Invoke("ReloadOut", 3f);
+        }
+    }
+
+    void ReloadOut()
+    {
+        int reAmmo = ammo < equipWeapon.maxAmo ? ammo : equipWeapon.maxAmo;
+        equipWeapon.curAmmo = reAmmo;
+        ammo -= reAmmo;
+        isRelaod = false;
+    }
     void Dodge()
     {
         if (jDown && moveVec != Vector3.zero && !isJump && !isDodge && !isSwap)
@@ -112,7 +178,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doDodge");
             isDodge = true;
             
-            Invoke("DodgeOut", 0.5f);
+            Invoke("DodgeOut", 3f);
         }
     }
 
@@ -134,15 +200,15 @@ public class Player : MonoBehaviour
         if ((sDown1 || sDown2 || sDown3) && !isDodge && !isJump)
         {
             if(equipWeapon != null)
-                equipWeapon.SetActive(false);
+                equipWeapon.gameObject.SetActive(false);
             
             equipWeaponIndex = weaponIndex;
-            equipWeapon = weapons[weaponIndex];
-            weapons[weaponIndex].SetActive(true); 
+            equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
+            equipWeapon.gameObject.SetActive(true); 
             
             anim.SetTrigger("doSwap");
             isSwap = true;
-            Invoke("SwapOut", 0.5f);
+            Invoke("SwapOut", 0.4f);
         }
     }
     
