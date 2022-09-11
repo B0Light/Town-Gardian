@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
     {
         A,
         B,
-        C
+        C,
+        D
     };
 
     public Type enemyType;
@@ -21,13 +22,14 @@ public class Enemy : MonoBehaviour
     public GameObject bullet;
     public bool isChase;
     public bool isAtk;
+    public bool isDead;
     
-    private Rigidbody rbody;
-    private BoxCollider _boxCollider;
-    //private Material mat;
-    private MeshRenderer[] meshs;
-    private NavMeshAgent nav;
-    private Animator anim;
+    protected Rigidbody rbody;
+    protected BoxCollider _boxCollider;
+    protected MeshRenderer[] meshs;
+    protected NavMeshAgent nav;
+    protected Animator anim;
+    
     private void Awake()
     {
         rbody = GetComponent<Rigidbody>();
@@ -35,8 +37,8 @@ public class Enemy : MonoBehaviour
         meshs = GetComponentsInChildren<MeshRenderer>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        
-        Invoke("ChaseStart", 2);
+        if(enemyType != Type.D)
+            Invoke("ChaseStart", 2);
     }
 
     void ChaseStart()
@@ -46,7 +48,12 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        if(nav.enabled)
+        if (isDead)
+        {
+            StopAllCoroutines();
+            return;
+        }
+        if(nav.enabled && enemyType != Type.D)
         {
             nav.SetDestination(target.position);
             nav.isStopped = !isChase;
@@ -65,30 +72,34 @@ public class Enemy : MonoBehaviour
 
     void Targeting()
     {
-        float targetRadius = 1.5f;
-        float targetRange = 3f;
-
-        switch (enemyType)
+        if (!isDead && enemyType != Type.D)
         {
-            case Type.A:
-                targetRadius = 1.5f;
-                targetRange = 3f;
-                break;
-            case Type.B:
-                targetRadius = 1f;
-                targetRange = 12f;
-                break;
-            case Type.C:
-                targetRadius = 0.5f;
-                targetRange = 25f;
-                break;
+            float targetRadius = 1.5f;
+            float targetRange = 3f;
+    
+            switch (enemyType)
+            {
+                case Type.A:
+                    targetRadius = 1.5f;
+                    targetRange = 3f;
+                    break;
+                case Type.B:
+                    targetRadius = 1f;
+                    targetRange = 12f;
+                    break;
+                case Type.C:
+                    targetRadius = 0.5f;
+                    targetRange = 25f;
+                    break;
+            }
+            RaycastHit[] rayHits = Physics.SphereCastAll(transform.position,
+                targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
+            if (rayHits.Length > 0 && !isAtk)
+            {
+                StartCoroutine(Atk());
+            }
         }
-        RaycastHit[] rayHits = Physics.SphereCastAll(transform.position,
-            targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
-        if (rayHits.Length > 0 && !isAtk && curHealth > 0)
-        {
-            StartCoroutine(Atk());
-        }
+        
     }
 
     IEnumerator Atk()
@@ -180,6 +191,7 @@ public class Enemy : MonoBehaviour
                 mesh.material.color = Color.gray;
             gameObject.layer = 14;
             anim.SetTrigger("doDie");
+            isDead = true;
             isChase = false;
             nav.enabled = false;
             
@@ -191,8 +203,10 @@ public class Enemy : MonoBehaviour
             }
             
             rbody.AddForce(reactVec * 5, ForceMode.Impulse);
-            yield return new WaitForSeconds(3f);
-            Destroy(gameObject);
+            if (enemyType != Type.D)
+            {
+                Destroy(gameObject, 4f);
+            }
         }
         
     }

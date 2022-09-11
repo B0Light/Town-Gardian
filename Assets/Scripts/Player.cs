@@ -307,23 +307,31 @@ public class Player : MonoBehaviour
             if(!isDmg){
                 Bullet enemyBullet = other.GetComponent<Bullet>();
                 health -= enemyBullet.dmg;
-                if(other.GetComponent<Rigidbody>() != null) Destroy(other.gameObject);
-                StartCoroutine(OnDmg());
+
+                bool isBossAtk = other.name == "Boss Melee Area";
+                StartCoroutine(OnDmg(isBossAtk));
             }
+            if(other.GetComponent<Rigidbody>() != null) Destroy(other.gameObject);
         }
     }
 
-    IEnumerator OnDmg()
+    IEnumerator OnDmg(bool isBossAtk)
     {
         isDmg = true;
         foreach (MeshRenderer mesh in meshs)
             mesh.material.color = Color.yellow;
         
+        if(isBossAtk)
+            rbody.AddForce(transform.forward * -20, ForceMode.Impulse);
+            
         yield return new WaitForSeconds(1f);
         isDmg = false;
 
         foreach (MeshRenderer mesh in meshs)
             mesh.material.color = Color.white;
+        
+        if(isBossAtk)
+            rbody.velocity = Vector3.zero;
     }
     void FreezeRotation()
     {
