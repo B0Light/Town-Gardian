@@ -9,6 +9,9 @@ TagManager:
   - Weapon
   - Melee
   - Wall
+  - Bullet
+  - Enemy
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
@@ -17,15 +20,15 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Item
   - Floor
   - Player
   - PlayerBullet
   - BulletCase
   - Wall
-  - 
-  - 
-  - 
+  - Enemy
+  - EnemyDead
+  - EnemyBullet
   - 
   - 
   - 

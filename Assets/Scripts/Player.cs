@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public GameObject[] weapons;
     public GameObject[] grenades ;
     public bool[] hasWeapons;
-    
+    public GameObject grenadeObj;
     private Vector3 moveVec;
     private Vector3 dodgeVec;
     private bool wDown; 
@@ -41,18 +41,22 @@ public class Player : MonoBehaviour
     private bool fDown;
     private float fireDelay;
     private bool isFireReady;
+    private bool gDown;
+    
     private bool isBorder;
+    
     private bool rDown;
     private bool isRelaod;
     
     private bool isJump;
     private bool isDodge;
     private bool isSwap;
+    private bool isDmg;
     
     private Animator anim;
-    
     private Rigidbody rbody;
-
+    private MeshRenderer[] meshs;
+    
     private GameObject nearObject;
     private Weapon equipWeapon;
     private int equipWeaponIndex = -1;
@@ -61,6 +65,7 @@ public class Player : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         rbody = GetComponent<Rigidbody>();
+        meshs = GetComponentsInChildren<MeshRenderer>();
     }
 
     private void Start()
@@ -76,6 +81,7 @@ public class Player : MonoBehaviour
         Turn();
         Jump();
         Attack();
+        Grenade();
         Reload();
         Dodge();
         Swap();
@@ -88,7 +94,10 @@ public class Player : MonoBehaviour
         vAxis = Input.GetAxisRaw("Vertical");
         wDown = Input.GetButton("Walk");
         jDown = Input.GetButtonDown("Jump");
+        
         fDown = Input.GetButton("Fire1");
+        gDown = Input.GetButtonDown("Fire2");
+        
         rDown = Input.GetButtonDown("Reload");
         iDown = Input.GetButtonDown("Interaction");
         sDown1 = Input.GetButtonDown("Swap1");
@@ -100,7 +109,7 @@ public class Player : MonoBehaviour
     {
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         if (isDodge) moveVec = dodgeVec;
-        if (isSwap || !isFireReady || isRelaod) moveVec = Vector3.zero;
+        if (isSwap || !isFireReady || isRelaod) moveVec = Vector3.zero;  //|| !isFireReady
         if(!isBorder)
             transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
         anim.SetBool("isRun", moveVec != Vector3.zero); 
@@ -137,6 +146,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Grenade()
+    {
+        if (hasGrendes == 0) return;
+        if (gDown && !isRelaod && !isSwap)
+        {
+            Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit rayHit;
+            if (Physics.Raycast(ray, out rayHit, 100))
+            {
+                Vector3 nextVec = rayHit.point - transform.position;
+                nextVec.y = 15;
+
+                GameObject instantGrenade = Instantiate(grenadeObj, transform.position, transform.rotation);
+                Rigidbody rbodyGrenade = instantGrenade.GetComponent<Rigidbody>();
+                rbodyGrenade.AddForce(nextVec, ForceMode.Impulse);
+                rbodyGrenade.AddTorque(Vector3.back * 15, ForceMode.Impulse);
+
+                hasGrendes--;
+                grenades[hasGrendes].SetActive(false);
+            }
+        }
+    }
     void Attack()
     {
         if (equipWeapon == null) return;
@@ -271,8 +302,29 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+        else if (other.tag == "EnemyBullet")
+        {
+            if(!isDmg){
+                Bullet enemyBullet = other.GetComponent<Bullet>();
+                health -= enemyBullet.dmg;
+                if(other.GetComponent<Rigidbody>() != null) Destroy(other.gameObject);
+                StartCoroutine(OnDmg());
+            }
+        }
     }
 
+    IEnumerator OnDmg()
+    {
+        isDmg = true;
+        foreach (MeshRenderer mesh in meshs)
+            mesh.material.color = Color.yellow;
+        
+        yield return new WaitForSeconds(1f);
+        isDmg = false;
+
+        foreach (MeshRenderer mesh in meshs)
+            mesh.material.color = Color.white;
+    }
     void FreezeRotation()
     {
         rbody.angularVelocity = Vector3.zero;
