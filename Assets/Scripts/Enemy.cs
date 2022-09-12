@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = System.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -17,9 +18,14 @@ public class Enemy : MonoBehaviour
     public Type enemyType;
     public int maxHealth;
     public int curHealth;
+    public int score;
+
+    public GameManager manager;
     public Transform target;
     public BoxCollider meleeArea;
     public GameObject bullet;
+    public GameObject[] coins;
+    
     public bool isChase;
     public bool isAtk;
     public bool isDead;
@@ -29,7 +35,8 @@ public class Enemy : MonoBehaviour
     protected MeshRenderer[] meshs;
     protected NavMeshAgent nav;
     protected Animator anim;
-    
+    protected int deathCoin;
+
     private void Awake()
     {
         rbody = GetComponent<Rigidbody>();
@@ -195,6 +202,31 @@ public class Enemy : MonoBehaviour
             isChase = false;
             nav.enabled = false;
             
+            Player player = target.GetComponent<Player>();
+            player.score += score;
+            
+            switch (enemyType)
+            {
+                case Type.A:
+                    manager.enemyCntA--;
+                    deathCoin = 0;
+                    break;
+                case Type.B:
+                    manager.enemyCntB--;
+                    deathCoin = 1;
+                    break;
+                case Type.C:
+                    manager.enemyCntC--;
+                    deathCoin = 1;
+                    break;
+                case Type.D:
+                    manager.enemyCntD--;
+                    deathCoin = 2;
+                    break;
+            }
+            Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
+            
+            
             if(isGrenade)
             { 
                 reactVec += Vector3.up * 3;
@@ -203,10 +235,8 @@ public class Enemy : MonoBehaviour
             }
             
             rbody.AddForce(reactVec * 5, ForceMode.Impulse);
-            if (enemyType != Type.D)
-            {
-                Destroy(gameObject, 4f);
-            }
+            Destroy(gameObject, 4f);
+            
         }
         
     }
