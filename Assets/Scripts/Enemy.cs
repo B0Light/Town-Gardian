@@ -82,13 +82,13 @@ public class Enemy : MonoBehaviour
         if (!isDead && enemyType != Type.D)
         {
             float targetRadius = 1.5f;
-            float targetRange = 3f;
+            float targetRange = 1f;
     
             switch (enemyType)
             {
                 case Type.A:
-                    targetRadius = 1.5f;
-                    targetRange = 3f;
+                    targetRadius = 0.5f;
+                    targetRange = 1f;
                     break;
                 case Type.B:
                     targetRadius = 1f;

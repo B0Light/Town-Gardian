@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2498752978995292924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7107688122283215892}
@@ -82,6 +82,7 @@ MonoBehaviour:
   maxHealth: 80
   curHealth: 80
   score: 200
+  manager: {fileID: 0}
   target: {fileID: 0}
   meleeArea: {fileID: 6760647751741378842}
   bullet: {fileID: 0}
