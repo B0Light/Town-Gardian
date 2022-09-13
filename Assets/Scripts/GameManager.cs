@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         gamePanel.SetActive(false);
         overPanel.SetActive(true);
         curScoreText.text = scoText.text;
@@ -187,7 +189,7 @@ public class GameManager : MonoBehaviour
         
         // Player UI
         playerHealthText.text = player.health + "/" + player.maxHealth;
-        playerCoinText.text = string.Format("{0:n0}", player.ammo);
+        playerCoinText.text = string.Format("{0:n0}", player.coin);
         if (player.equipWeapon == null)
             playerAmmoText.text = "- / " + player.ammo;
         else if (player.equipWeapon.type == Weapon.Type.Melee)

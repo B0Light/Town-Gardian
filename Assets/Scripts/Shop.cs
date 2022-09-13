@@ -18,6 +18,8 @@ public class Shop : MonoBehaviour
     {
         enterPlayer = player;
         uiGroup.anchoredPosition = Vector3.zero;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
@@ -25,6 +27,8 @@ public class Shop : MonoBehaviour
     { 
         anim.SetTrigger("doHello");
         uiGroup.anchoredPosition = Vector3.down * 1000;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Buy(int index)
@@ -36,7 +40,6 @@ public class Shop : MonoBehaviour
             StartCoroutine(Talk());
             return;
         }
-
         enterPlayer.coin -= price;
         Instantiate(itemObj[index], itemPos[index].position, itemPos[index].rotation);
     }
