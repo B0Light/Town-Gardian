@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
    private void Update()
    {
        bulletlife += Time.deltaTime;
-       if(bulletlife > 10f) Destroy(gameObject);
+       if(bulletlife > 10f && !isMelee) Destroy(gameObject);
    }
    private void OnCollisionEnter(Collision collision)
    {

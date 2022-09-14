@@ -219,6 +219,7 @@ MonoBehaviour:
   dmg: 5
   isMelee: 1
   isRock: 0
+  bulletlife: 0
 --- !u!1001 &7289407830774852607
 PrefabInstance:
   m_ObjectHideFlags: 0
