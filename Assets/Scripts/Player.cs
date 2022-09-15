@@ -151,12 +151,15 @@ public class Player : MonoBehaviour
             moveVec = Vector3.zero;  //|| !isFireReady
         }
         else {
-            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+            moveVec = new Vector3(hAxis, 0, vAxis);
             moveVec = Camera.main.transform.TransformDirection(moveVec);
-            
-            //이동 방향을 부드럽게 변경한다
-            moveVec = Vector3.Slerp(transform.forward, moveVec, rotateSpeed * Time.deltaTime / Vector3.Angle(transform.forward, moveVec));
             moveVec.y = 0;
+            moveVec = moveVec.normalized;
+
+            //이동 방향을 부드럽게 변경한다
+            float angle = Vector3.Angle(transform.forward, moveVec);
+
+            moveVec = Vector3.Slerp(transform.forward, moveVec, rotateSpeed * Time.deltaTime / angle);
 
         }
         
@@ -442,5 +445,12 @@ public class Player : MonoBehaviour
             isShop = false;
             nearObject = null;
         }
+    }
+    // return : -180 ~ 180 degree (for unity)
+    public static float GetAngle(Vector3 vStart, Vector3 vEnd) {
+        Vector3 v = vEnd - vStart;
+        
+
+        return Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
     }
 }
