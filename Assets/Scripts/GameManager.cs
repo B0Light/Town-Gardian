@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curScoreText;
     public Text bestText;
+    
     private void Awake()
     {
         enemyList = new List<int>();

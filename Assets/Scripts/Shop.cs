@@ -13,6 +13,7 @@ public class Shop : MonoBehaviour
     public Text talkText;
     public string[] talkData;
     private Player enterPlayer;
+    public Image crossHair;
     // Start is called before the first frame update
     public void Enter(Player player)
     {
@@ -20,6 +21,7 @@ public class Shop : MonoBehaviour
         uiGroup.anchoredPosition = Vector3.zero;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        crossHair.color = new Color(0, 0, 0, 0);
     }
 
     // Update is called once per frame

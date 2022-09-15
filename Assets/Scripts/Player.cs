@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -76,6 +77,7 @@ public class Player : MonoBehaviour
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3;
 
+    public Image crossHair;
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
     //
@@ -94,6 +96,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isFireReady = true;
+        crossHair.color = new Color(0, 0, 0,0);
     }
 
     // Update is called once per frame
@@ -263,7 +266,6 @@ public class Player : MonoBehaviour
         {
             if(equipWeapon != null)
                 equipWeapon.gameObject.SetActive(false);
-            
             equipWeaponIndex = weaponIndex;
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true); 
@@ -271,7 +273,15 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doSwap");
             isSwap = true;
             Invoke("SwapOut", 0.4f);
+            
+            if(equipWeapon == null) crossHair.color = new Color(0,0,0,0);
+            else if (equipWeapon.type == Weapon.Type.Range) 
+                crossHair.color = new Color(1, 1, 1,1);
+            else if (equipWeapon.type == Weapon.Type.Melee) 
+                crossHair.color = new Color(0, 0, 0,0);
+
         }
+        
     }
     
     void SwapOut()
