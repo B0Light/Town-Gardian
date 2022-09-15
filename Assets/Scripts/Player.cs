@@ -7,25 +7,42 @@ using UnityEditor.Build;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class Player : MonoBehaviour
-{
-    public GameManager manager;
-    public Camera followCamera;
-    public int ammo;
-    public int coin;
-    public int health;
-    public int hasGrendes = 0;
-    
+[System.Serializable]
+public class Stat {
     public int maxAmmo;
     public int maxCoin;
     public int maxHealth;
     public int maxHasGrendes;
 
+    public int ammo;
+    public int coin;
+    public int health;
+    public int hasGrendes = 0;
+
+}
+
+public class Player : MonoBehaviour
+{
+    public GameManager manager;
+    public Camera followCamera;
+
     public int score;
     
     private float hAxis;
     private float vAxis;
-    
+
+    public Stat stat;
+
+    public int maxAmmo;
+    public int maxCoin;
+    public int maxHealth;
+    public int maxHasGrendes;
+
+    public int ammo;
+    public int coin;
+    public int health;
+    public int hasGrendes = 0;
+
     public float speed;
     public GameObject[] weapons;
     public GameObject[] grenades ;
@@ -62,7 +79,6 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Rigidbody rbody;
     private MeshRenderer[] meshs;
-    private Transform camPos;
     
     private GameObject nearObject;
     // GM approach
@@ -70,14 +86,12 @@ public class Player : MonoBehaviour
     private int equipWeaponIndex = -1;
     
     //
-    public float cameraSensitivity = 90;
     public float climbSpeed = 4;
     public float normalMoveSpeed = 10;
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3;
+    [SerializeField] float rotateSpeed = 360;
 
-    private float rotationX = 0.0f;
-    private float rotationY = 0.0f;
     //
     // Start is called before the first frame update
     void Awake()
@@ -85,7 +99,6 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rbody = GetComponent<Rigidbody>();
         meshs = GetComponentsInChildren<MeshRenderer>();
-        camPos = followCamera.GetComponent<Transform>();
 
         //PlayerPrefs.SetInt("MaxScore", 199999);
         //Debug.Log(PlayerPrefs.GetInt("MaxScore"));
@@ -131,29 +144,38 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        rotationX += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
-        //rotationY += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-        //rotationY = Mathf.Clamp (rotationY, -45, 45);
-		
-        transform.localRotation = Quaternion.AngleAxis(rotationX, Vector3.up);
-        transform.localRotation *= Quaternion.AngleAxis(rotationY, Vector3.left);
+        if (isDodge) {
+            moveVec = dodgeVec;
+        }
+        else if (isSwap || !isFireReady || isRelaod || isDead) {
+            moveVec = Vector3.zero;  //|| !isFireReady
+        }
+        else {
+            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+            moveVec = Camera.main.transform.TransformDirection(moveVec);
+            
+            //이동 방향을 부드럽게 변경한다
+            moveVec = Vector3.Slerp(transform.forward, moveVec, rotateSpeed * Time.deltaTime / Vector3.Angle(transform.forward, moveVec));
+            moveVec.y = 0;
+
+        }
         
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-        moveVec = this.transform.TransformDirection(moveVec);
-        moveVec.y = 0;
-        if (isDodge) moveVec = dodgeVec;
-        if (isSwap || !isFireReady || isRelaod || isDead) moveVec = Vector3.zero;  //|| !isFireReady
         if(!isBorder)
-            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
+            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) * Time.deltaTime;
+
         anim.SetBool("isRun", moveVec != Vector3.zero); 
         anim.SetBool("isWalk", wDown); 
     }
 
     void Turn()
-    { 
-        //키보드 회전
-        //if (!isDead) 
-            //transform.LookAt(transform.position + moveVec); //나아가는 방향으로 바라 봄 
+    {
+        // 이동속도가 현저히 적거나 죽은 상태일 경우 회전을 실행하지 않는다.
+        if (moveVec.magnitude < 0.5f || isDead)
+            return;
+
+        // 캐릭터를 나아가는 방향으로 보게 한다.
+        transform.forward = moveVec;
+
          //마우스 회전
          /*
          if (!isDead)
@@ -201,14 +223,18 @@ public class Player : MonoBehaviour
     void Attack()
     {
         if (equipWeapon == null) return;
+
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
+
+        // 공격을 실행한다.
         if (fDown && isFireReady && !isDodge && !isSwap && !isRelaod &&!isShop && !isDead)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type  == Weapon.Type.Melee ? "doSwing" : "doShot");
             fireDelay = 0;
         }
+
     }
 
     void Reload()
@@ -233,8 +259,7 @@ public class Player : MonoBehaviour
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead)
-        {
+        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead) {
             dodgeVec = moveVec;
             speed *= 2;
             anim.SetTrigger("doDodge");
@@ -289,7 +314,8 @@ public class Player : MonoBehaviour
                 hasWeapons[weaponIndex] = true; 
                 
                 Destroy(nearObject);
-            }else if (nearObject.tag == "Shop")
+            }
+            else if (nearObject.tag == "Shop")
             {
                 Shop shop = nearObject.GetComponent<Shop>();
                 shop.Enter(this);
