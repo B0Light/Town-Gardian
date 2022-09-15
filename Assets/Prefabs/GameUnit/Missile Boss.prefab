@@ -78,9 +78,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c11bb992acf74349bda4123a6b0149d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   dmg: 12
   isMelee: 0
   isRock: 0
+  bulletlife: 0
+  lv: 1
   target: {fileID: 0}
 --- !u!195 &3619150167678170575
 NavMeshAgent:

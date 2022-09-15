@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public int stage;
     public float playTime;
     public bool isBattle;
+    public bool isGameOver;
     public int enemyCntA;
     public int enemyCntB;
     public int enemyCntC;
@@ -58,7 +59,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         enemyList = new List<int>();
-        maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore")); 
+        maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore"));
+        isGameOver = false;
     }
     
     public void GameStart()
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
+        isGameOver = true;
         gamePanel.SetActive(false);
         overPanel.SetActive(true);
         curScoreText.text = scoText.text;
@@ -124,10 +127,11 @@ public class GameManager : MonoBehaviour
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
-                enemySpawn[0].position, enemySpawn[0].rotation);
+                enemySpawn[2].position, enemySpawn[2].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
             enemy.target = player.transform;
             boss = instantEnemy.GetComponent<Boss>();
+            boss.maxHealth *= stage;
             enemy.manager = this;
         }
         else

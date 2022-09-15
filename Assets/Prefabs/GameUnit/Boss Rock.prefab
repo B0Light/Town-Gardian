@@ -90,9 +90,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80cafe5a550ae64892903c609ae34a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 3
   dmg: 30
   isMelee: 0
   isRock: 1
+  bulletlife: 0
+  lv: 1
 --- !u!1 &2882484625553118939
 GameObject:
   m_ObjectHideFlags: 0

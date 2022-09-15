@@ -240,7 +240,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doDodge");
             isDodge = true;
             
-            Invoke("DodgeOut", .5f);
+            Invoke("DodgeOut", 0.5f);
         }
     }
 
@@ -286,9 +286,18 @@ public class Player : MonoBehaviour
             {
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true; 
-                
+                if (hasWeapons[weaponIndex])
+                {
+                    Weapon UpWeapon = weapons[weaponIndex].GetComponent<Weapon>();
+                    UpWeapon.UpGrade();
+                }
+                else
+                {
+                    hasWeapons[weaponIndex] = true;
+                }
+                    
                 Destroy(nearObject);
+                
             }else if (nearObject.tag == "Shop")
             {
                 Shop shop = nearObject.GetComponent<Shop>();

@@ -110,8 +110,8 @@ NavMeshSettings:
     agentHeight: 2.5
     agentSlope: 45
     agentClimb: 1.2
-    ledgeDropHeight: 0
-    maxJumpAcrossDistance: 0
+    ledgeDropHeight: 3
+    maxJumpAcrossDistance: 5
     minRegionArea: 2
     manualCellSize: 0
     cellSize: 0.16666667
@@ -18580,7 +18580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -27684,14 +27684,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748105128}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 1, z: 45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460267547}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!199 &748105130
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -46836,7 +46836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -54508,7 +54508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -55429,7 +55429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -67463,6 +67463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e16294e1cb22c54e85a7120cfb67ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 2138059036}
   cameraSensitivity: 90
   climbSpeed: 4
   normalMoveSpeed: 10
@@ -95610,6 +95611,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7797365014445582045, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: weaponLV
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797365014445582046, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797365014445582046, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: m_Size.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797365014999033365, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: weaponLV
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7797365015372852597, guid: c946442d066005b428720bd32066d578, type: 3}
       propertyPath: coin
       value: 10000
@@ -95629,6 +95646,10 @@ PrefabInstance:
     - target: {fileID: 7797365015372852597, guid: c946442d066005b428720bd32066d578, type: 3}
       propertyPath: grenades.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797365015372852597, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: weaponsLV.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7797365015372852597, guid: c946442d066005b428720bd32066d578, type: 3}
       propertyPath: grenades.Array.data[0]
@@ -95662,6 +95683,14 @@ PrefabInstance:
       propertyPath: grenades.Array.data[7]
       value: 
       objectReference: {fileID: 505608722}
+    - target: {fileID: 7797365015453709411, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: weaponLV
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115395332876570648, guid: c946442d066005b428720bd32066d578, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c946442d066005b428720bd32066d578, type: 3}
 --- !u!114 &1848939654 stripped
@@ -110885,7 +110914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -117548,7 +117577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -118828,9 +118857,10 @@ MonoBehaviour:
   - {fileID: 5279740912019157556, guid: 0892a32220cda2e4193c23ec7d7d4616, type: 3}
   - {fileID: 6712138714836013476, guid: ee8b7c65388abe14e832e314d30ace65, type: 3}
   enemyList: 
-  stage: 1
+  stage: 2
   playTime: 0
   isBattle: 0
+  isGameOver: 0
   enemyCntA: 0
   enemyCntB: 0
   enemyCntC: 0

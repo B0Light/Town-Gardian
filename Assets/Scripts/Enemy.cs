@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public int maxHealth;
     public int curHealth;
     public int score;
-
+    private int coinCnt;
     public GameManager manager;
     public Transform target;
     public BoxCollider meleeArea;
@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
         meshs = GetComponentsInChildren<MeshRenderer>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
+        curHealth = maxHealth;
         if(enemyType != Type.D)
             Invoke("ChaseStart", 2);
     }
@@ -91,7 +92,7 @@ public class Enemy : MonoBehaviour
                     targetRange = 1f;
                     break;
                 case Type.B:
-                    targetRadius = 1f;
+                    targetRadius = 2f;
                     targetRange = 12f;
                     break;
                 case Type.C:
@@ -126,7 +127,7 @@ public class Enemy : MonoBehaviour
                 break;
             case Type.B:
                 yield return new WaitForSeconds(0.1f);
-                rbody.AddForce(transform.forward * 20, ForceMode.Impulse);
+                rbody.AddForce(transform.forward * 25, ForceMode.Impulse);
                 meleeArea.enabled = true;
 
                 yield return new WaitForSeconds(0.5f);
@@ -209,22 +210,32 @@ public class Enemy : MonoBehaviour
             {
                 case Type.A:
                     manager.enemyCntA--;
-                    deathCoin = 0;
+                    coinCnt = UnityEngine.Random.Range(0, 1);
                     break;
                 case Type.B:
                     manager.enemyCntB--;
-                    deathCoin = 1;
+                    coinCnt = UnityEngine.Random.Range(0, 2);
                     break;
                 case Type.C:
                     manager.enemyCntC--;
-                    deathCoin = 1;
+                    coinCnt = UnityEngine.Random.Range(0, 3);
                     break;
                 case Type.D:
                     manager.enemyCntD--;
-                    deathCoin = 2;
+                    coinCnt = UnityEngine.Random.Range(0, 5);
+                    player.coin += 1000;
                     break;
             }
-            Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
+
+
+            for (int i = 0; i < coinCnt; i++)
+            {
+                deathCoin = UnityEngine.Random.Range(0, 3);
+                Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
+               
+                
+            }
+                
             
             
             if(isGrenade)
