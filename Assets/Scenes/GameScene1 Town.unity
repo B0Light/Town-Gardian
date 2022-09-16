@@ -702,7 +702,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16818963}
+<<<<<<< Updated upstream
   m_LocalRotation: {x: 0.18910751, y: -0.000000008447955, z: 0.0000000016269276, w: 0.9819564}
+=======
+  m_LocalRotation: {x: 0.18910751, y: -0.000000016895918, z: 0.0000000032538565, w: 0.9819564}
+>>>>>>> Stashed changes
   m_LocalPosition: {x: 0, y: 5, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -67445,13 +67449,18 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361079514}
+<<<<<<< Updated upstream
   m_LocalRotation: {x: 0.18910751, y: -0.000000008447955, z: 0.0000000016269276, w: 0.9819564}
+=======
+  m_LocalRotation: {x: 0.18910751, y: -0.000000016895918, z: 0.0000000032538565, w: 0.9819564}
+>>>>>>> Stashed changes
   m_LocalPosition: {x: 0, y: 5, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+<<<<<<< Updated upstream
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1361079520
 MonoBehaviour:
@@ -67471,6 +67480,9 @@ MonoBehaviour:
   normalMoveSpeed: 10
   slowMoveFactor: 0.25
   fastMoveFactor: 3
+=======
+  m_LocalEulerAnglesHint: {x: 21, y: 0, z: 0}
+>>>>>>> Stashed changes
 --- !u!114 &1361079522
 MonoBehaviour:
   m_ObjectHideFlags: 0
