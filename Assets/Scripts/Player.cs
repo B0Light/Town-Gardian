@@ -83,7 +83,8 @@ public class Player : MonoBehaviour
     // GM approach
     public Weapon equipWeapon;
     private int equipWeaponIndex = -1;
-    
+    private float angle;
+
     //
     public float climbSpeed = 4;
     public float normalMoveSpeed = 10;
@@ -156,7 +157,7 @@ public class Player : MonoBehaviour
 
 
             //이동 방향을 부드럽게 변경한다
-            float angle = Vector3.Angle(transform.forward, inputVec);
+            angle = Vector3.Angle(transform.forward, inputVec);
             moveVec = Vector3.Slerp(transform.forward, inputVec, rotateSpeed * Time.deltaTime / angle);
 
         }
@@ -171,8 +172,12 @@ public class Player : MonoBehaviour
     void Turn()
     {
         // 이동속도가 현저히 적거나 죽은 상태일 경우 회전을 실행하지 않는다.
-        if (moveVec.magnitude < 0.5f || isDead)
+        if (moveVec.magnitude < 0.5f || isDead) 
+        {
+            transform.forward = Camera.main.transform.forward;
             return;
+        }
+            
 
         // 캐릭터를 나아가는 방향으로 보게 한다.
         transform.forward = moveVec;

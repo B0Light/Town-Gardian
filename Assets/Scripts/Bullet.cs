@@ -28,6 +28,6 @@ public class Bullet : MonoBehaviour
 
    private void OnTriggerEnter(Collider other)
    {
-      if(!isMelee && other.gameObject.tag == "Wall") Destroy(gameObject);
+      if(!isMelee && other.gameObject.tag == "Floor") Destroy(gameObject);
    }
 }
