@@ -11,7 +11,6 @@ public class Boss : Enemy
     private Vector3 lookVec;
     private Vector3 tauntVec;
     public bool isLook;
-    private float dis;
 
     void Awake()
     {
@@ -49,24 +48,19 @@ public class Boss : Enemy
     {
         yield return new WaitForSeconds(0.1f);
         int ranAction = Random.Range(0, 5);
-        dis = Vector3.Distance(target.position, this.transform.position);
-        if(dis > 100) StartCoroutine(Taunt());
-        else
+        switch (ranAction)
         {
-            switch (ranAction)
-            {
-                case 0:
-                case 1:
-                    StartCoroutine(MissileShot());
-                    break;
-                case 2:
-                case 3:
-                    StartCoroutine(RockShot());
-                    break;
-                case 4:
-                    StartCoroutine(Taunt());
-                    break;
-            }
+            case 0:
+            case 1:
+                StartCoroutine(MissileShot());
+                break;
+            case 2:
+            case 3:
+                StartCoroutine(RockShot());
+                break;
+            case 4:
+                StartCoroutine(Taunt());
+                break;
         }
     }
 

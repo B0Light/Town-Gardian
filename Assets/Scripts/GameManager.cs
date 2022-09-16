@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     public int stage;
     public float playTime;
     public bool isBattle;
-    public bool isGameOver;
     public int enemyCntA;
     public int enemyCntB;
     public int enemyCntC;
@@ -56,12 +55,10 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curScoreText;
     public Text bestText;
-    
     private void Awake()
     {
         enemyList = new List<int>();
-        maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore"));
-        isGameOver = false;
+        maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore")); 
     }
     
     public void GameStart()
@@ -79,7 +76,6 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
-        isGameOver = true;
         gamePanel.SetActive(false);
         overPanel.SetActive(true);
         curScoreText.text = scoText.text;
@@ -128,11 +124,10 @@ public class GameManager : MonoBehaviour
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
-                enemySpawn[2].position, enemySpawn[2].rotation);
+                enemySpawn[0].position, enemySpawn[0].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
             enemy.target = player.transform;
             boss = instantEnemy.GetComponent<Boss>();
-            boss.maxHealth *= stage;
             enemy.manager = this;
         }
         else
@@ -199,8 +194,12 @@ public class GameManager : MonoBehaviour
             playerAmmoText.text = "- / " + player.ammo;
         else if (player.equipWeapon.type == Weapon.Type.Melee)
             playerAmmoText.text = "- / " + player.ammo;
-        else
-            playerAmmoText.text = player.equipWeapon.curAmmo + "/" + player.ammo;
+        else {
+            Range range;
+            range = player.equipWeapon.GetComponent<Range>();
+
+            playerAmmoText.text = range._curAmmo + "/" + player.ammo;
+        }
 
         //Weapon UI
         Weapon1Img.color = new Color(1, 1, 1, player.hasWeapons[0] ? 1 : 0);

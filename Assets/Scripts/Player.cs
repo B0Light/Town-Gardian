@@ -6,27 +6,42 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Player : MonoBehaviour
-{
-    public GameManager manager;
-    public Camera followCamera;
-    public int ammo;
-    public int coin;
-    public int health;
-    public int hasGrendes = 0;
-    
+[System.Serializable]
+public class Stat {
     public int maxAmmo;
     public int maxCoin;
     public int maxHealth;
     public int maxHasGrendes;
 
+    public int ammo;
+    public int coin;
+    public int health;
+    public int hasGrendes = 0;
+
+}
+
+public class Player : MonoBehaviour
+{
+    public GameManager manager;
+    public Camera followCamera;
+
     public int score;
-    
-    private float hAxis;
-    private float vAxis;
-    
+
+    private Vector3 inputVec;
+
+    public Stat stat;
+
+    public int maxAmmo;
+    public int maxCoin;
+    public int maxHealth;
+    public int maxHasGrendes;
+
+    public int ammo;
+    public int coin;
+    public int health;
+    public int hasGrendes = 0;
+
     public float speed;
     public GameObject[] weapons;
     public GameObject[] grenades ;
@@ -63,23 +78,20 @@ public class Player : MonoBehaviour
     private Animator anim;
     private Rigidbody rbody;
     private MeshRenderer[] meshs;
-    private Transform camPos;
     
     private GameObject nearObject;
     // GM approach
     public Weapon equipWeapon;
     private int equipWeaponIndex = -1;
-    
+    private float angle;
+
     //
-    public float cameraSensitivity = 90;
     public float climbSpeed = 4;
     public float normalMoveSpeed = 10;
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3;
+    [SerializeField] float rotateSpeed = 360;
 
-    public Image crossHair;
-    private float rotationX = 0.0f;
-    private float rotationY = 0.0f;
     //
     // Start is called before the first frame update
     void Awake()
@@ -87,7 +99,6 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rbody = GetComponent<Rigidbody>();
         meshs = GetComponentsInChildren<MeshRenderer>();
-        camPos = followCamera.GetComponent<Transform>();
 
         //PlayerPrefs.SetInt("MaxScore", 199999);
         //Debug.Log(PlayerPrefs.GetInt("MaxScore"));
@@ -96,7 +107,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isFireReady = true;
-        crossHair.color = new Color(0, 0, 0,0);
     }
 
     // Update is called once per frame
@@ -116,8 +126,8 @@ public class Player : MonoBehaviour
 
     void GetInput()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        inputVec.x = Input.GetAxisRaw("Horizontal");
+        inputVec.z = Input.GetAxisRaw("Vertical");
         wDown = Input.GetButton("Walk");
         dDown = Input.GetButton("Jump");
         jDown = Input.GetKeyDown(KeyCode.F);
@@ -134,29 +144,45 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        rotationX += Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
-        //rotationY += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-        //rotationY = Mathf.Clamp (rotationY, -45, 45);
-		
-        transform.localRotation = Quaternion.AngleAxis(rotationX, Vector3.up);
-        transform.localRotation *= Quaternion.AngleAxis(rotationY, Vector3.left);
+        if (isDodge) {
+            moveVec = dodgeVec;
+        }
+        else if (isSwap || !isFireReady || isRelaod || isDead) {
+            moveVec = Vector3.zero;  //|| !isFireReady
+        }
+        else {
+            inputVec = Camera.main.transform.TransformDirection(inputVec);
+            inputVec.y = 0;
+            inputVec = inputVec.normalized;
+
+
+            //이동 방향을 부드럽게 변경한다
+            angle = Vector3.Angle(transform.forward, inputVec);
+            moveVec = Vector3.Slerp(transform.forward, inputVec, rotateSpeed * Time.deltaTime / angle);
+
+        }
         
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-        moveVec = this.transform.TransformDirection(moveVec);
-        moveVec.y = 0;
-        if (isDodge) moveVec = dodgeVec;
-        if (isSwap || !isFireReady || isRelaod || isDead) moveVec = Vector3.zero;  //|| !isFireReady
         if(!isBorder)
-            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) *Time.deltaTime;
+            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) * Time.deltaTime;
+
         anim.SetBool("isRun", moveVec != Vector3.zero); 
         anim.SetBool("isWalk", wDown); 
     }
 
     void Turn()
-    { 
-        //키보드 회전
-        //if (!isDead) 
-            //transform.LookAt(transform.position + moveVec); //나아가는 방향으로 바라 봄 
+    {
+        // 이동속도가 현저히 적거나 죽은 상태일 경우 회전을 실행하지 않는다.
+        if (moveVec.magnitude < 0.5f || isDead) 
+        {
+            Vector3 lookat = Camera.main.transform.forward;
+            lookat.y = 0;
+            transform.forward = lookat;
+            return;
+        }
+            
+        // 캐릭터를 나아가는 방향으로 보게 한다.
+        transform.forward = moveVec;
+
          //마우스 회전
          /*
          if (!isDead)
@@ -204,14 +230,18 @@ public class Player : MonoBehaviour
     void Attack()
     {
         if (equipWeapon == null) return;
+
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
+
+        // 공격을 실행한다.
         if (fDown && isFireReady && !isDodge && !isSwap && !isRelaod &&!isShop && !isDead)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type  == Weapon.Type.Melee ? "doSwing" : "doShot");
             fireDelay = 0;
         }
+
     }
 
     void Reload()
@@ -229,21 +259,27 @@ public class Player : MonoBehaviour
 
     void ReloadOut()
     {
-        int reAmmo = ammo < equipWeapon.maxAmo ? ammo : equipWeapon.maxAmo;
-        equipWeapon.curAmmo = reAmmo;
-        ammo -= reAmmo;
+        if (equipWeapon.type == Weapon.Type.Melee)
+            return;
+
+        Range range = equipWeapon.GetComponent<Range>();
+
+        int reAmmo = ammo < range._maxAmo ? ammo : range._maxAmo;
+        range._maxAmo = reAmmo;
+        ammo -= reAmmo;             // 30발 장전할 수 잇는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
+                                    // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
+
         isRelaod = false;
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead)
-        {
-            dodgeVec = moveVec;
+        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead) {
+            dodgeVec = inputVec;
             speed *= 2;
             anim.SetTrigger("doDodge");
             isDodge = true;
             
-            Invoke("DodgeOut", 0.5f);
+            Invoke("DodgeOut", .5f);
         }
     }
 
@@ -266,6 +302,7 @@ public class Player : MonoBehaviour
         {
             if(equipWeapon != null)
                 equipWeapon.gameObject.SetActive(false);
+            
             equipWeaponIndex = weaponIndex;
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true); 
@@ -273,15 +310,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doSwap");
             isSwap = true;
             Invoke("SwapOut", 0.4f);
-            
-            if(equipWeapon == null) crossHair.color = new Color(0,0,0,0);
-            else if (equipWeapon.type == Weapon.Type.Range) 
-                crossHair.color = new Color(1, 1, 1,1);
-            else if (equipWeapon.type == Weapon.Type.Melee) 
-                crossHair.color = new Color(0, 0, 0,0);
-
         }
-        
     }
     
     void SwapOut()
@@ -296,19 +325,17 @@ public class Player : MonoBehaviour
             {
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
-                if (hasWeapons[weaponIndex])
-                {
-                    Weapon UpWeapon = weapons[weaponIndex].GetComponent<Weapon>();
-                    UpWeapon.UpGrade();
-                }
+                if(!hasWeapons[weaponIndex])
+                    hasWeapons[weaponIndex] = true;
                 else
                 {
-                    hasWeapons[weaponIndex] = true;
+                    // upGrade item;
+
                 }
-                    
-                Destroy(nearObject);
                 
-            }else if (nearObject.tag == "Shop")
+                Destroy(nearObject);
+            }
+            else if (nearObject.tag == "Shop")
             {
                 Shop shop = nearObject.GetComponent<Shop>();
                 shop.Enter(this);
@@ -435,5 +462,12 @@ public class Player : MonoBehaviour
             isShop = false;
             nearObject = null;
         }
+    }
+    // return : -180 ~ 180 degree (for unity)
+    public static float GetAngle(Vector3 vStart, Vector3 vEnd) {
+        Vector3 v = vEnd - vStart;
+        
+
+        return Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
     }
 }

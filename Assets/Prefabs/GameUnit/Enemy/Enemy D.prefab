@@ -89,11 +89,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303864b6fe90fee42a7146a1476a83b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   dmg: 50
   isMelee: 1
   isRock: 0
-  bulletlife: 0
 --- !u!1 &3746194400261200646
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +152,7 @@ Transform:
   m_GameObject: {fileID: 6712138714836013476}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 930953756836297020}
@@ -237,8 +235,8 @@ MonoBehaviour:
   bullet: {fileID: 1728335841751283086, guid: 6eb5830f5fea609468f9522c29789dfb, type: 3}
   coins:
   - {fileID: 5693251702967212441, guid: e4dc89e74f4794243b2457187e380ae5, type: 3}
-  - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
   - {fileID: 9032352697547488528, guid: f978e8ef75e49f24d81be66ff5ee3574, type: 3}
+  - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
   isChase: 0
   isAtk: 0
   isDead: 0

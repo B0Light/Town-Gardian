@@ -17,7 +17,6 @@ public class Melee : Weapon {
 
     public override void UpGrade()
     {
-        level++;
         _dmg *= level;
     }
 
