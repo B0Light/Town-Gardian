@@ -194,8 +194,12 @@ public class GameManager : MonoBehaviour
             playerAmmoText.text = "- / " + player.ammo;
         else if (player.equipWeapon.type == Weapon.Type.Melee)
             playerAmmoText.text = "- / " + player.ammo;
-        else
-            playerAmmoText.text = player.equipWeapon.curAmmo + "/" + player.ammo;
+        else {
+            Range range;
+            range = player.equipWeapon.GetComponent<Range>();
+
+            playerAmmoText.text = range._curAmmo + "/" + player.ammo;
+        }
 
         //Weapon UI
         Weapon1Img.color = new Color(1, 1, 1, player.hasWeapons[0] ? 1 : 0);

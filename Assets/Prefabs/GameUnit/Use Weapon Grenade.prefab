@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3129618811890759569}
   - component: {fileID: 3551364569476473673}
   m_Layer: 10
-  m_Name: 'Use Weapon Grenade '
+  m_Name: Use Weapon Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

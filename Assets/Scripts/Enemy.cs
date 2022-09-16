@@ -160,8 +160,8 @@ public class Enemy : MonoBehaviour
         Vector3 reactVec = transform.position - other.transform.position;
         if (other.tag == "Melee")
         {
-            Weapon weapon = other.GetComponent<Weapon>();
-            curHealth -= weapon.dmg;
+            Melee weapon = other.GetComponent<Melee>();
+            curHealth -= weapon._dmg;
             StartCoroutine(OnDmg(reactVec, false));
         }else if (other.tag == "Bullet")
         {

@@ -27,9 +27,8 @@ public class Player : MonoBehaviour
     public Camera followCamera;
 
     public int score;
-    
-    private float hAxis;
-    private float vAxis;
+
+    private Vector3 inputVec;
 
     public Stat stat;
 
@@ -126,8 +125,8 @@ public class Player : MonoBehaviour
 
     void GetInput()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        inputVec.x = Input.GetAxisRaw("Horizontal");
+        inputVec.z = Input.GetAxisRaw("Vertical");
         wDown = Input.GetButton("Walk");
         dDown = Input.GetButton("Jump");
         jDown = Input.GetKeyDown(KeyCode.F);
@@ -151,15 +150,14 @@ public class Player : MonoBehaviour
             moveVec = Vector3.zero;  //|| !isFireReady
         }
         else {
-            moveVec = new Vector3(hAxis, 0, vAxis);
-            moveVec = Camera.main.transform.TransformDirection(moveVec);
-            moveVec.y = 0;
-            moveVec = moveVec.normalized;
+            inputVec = Camera.main.transform.TransformDirection(inputVec);
+            inputVec.y = 0;
+            inputVec = inputVec.normalized;
+
 
             //이동 방향을 부드럽게 변경한다
-            float angle = Vector3.Angle(transform.forward, moveVec);
-
-            moveVec = Vector3.Slerp(transform.forward, moveVec, rotateSpeed * Time.deltaTime / angle);
+            float angle = Vector3.Angle(transform.forward, inputVec);
+            moveVec = Vector3.Slerp(transform.forward, inputVec, rotateSpeed * Time.deltaTime / angle);
 
         }
         
@@ -255,15 +253,22 @@ public class Player : MonoBehaviour
 
     void ReloadOut()
     {
-        int reAmmo = ammo < equipWeapon.maxAmo ? ammo : equipWeapon.maxAmo;
-        equipWeapon.curAmmo = reAmmo;
-        ammo -= reAmmo;
+        if (equipWeapon.type == Weapon.Type.Melee)
+            return;
+
+        Range range = equipWeapon.GetComponent<Range>();
+
+        int reAmmo = ammo < range._maxAmo ? ammo : range._maxAmo;
+        range._maxAmo = reAmmo;
+        ammo -= reAmmo;             // 30발 장전할 수 잇는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
+                                    // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
+
         isRelaod = false;
     }
     void Dodge()
     {
         if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead) {
-            dodgeVec = moveVec;
+            dodgeVec = inputVec;
             speed *= 2;
             anim.SetTrigger("doDodge");
             isDodge = true;
