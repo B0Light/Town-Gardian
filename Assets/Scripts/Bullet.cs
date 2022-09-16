@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
 
     public void UpGradeBullet(int level)
     {
-        dmg *= level;
+        dmg += (level*5);
     }
 
     private void OnCollisionEnter(Collision collision)

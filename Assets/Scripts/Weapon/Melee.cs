@@ -17,7 +17,8 @@ public class Melee : Weapon {
 
     public override void UpGrade()
     {
-        _dmg *= level;
+        level++;
+        _dmg += (level * 25);
     }
 
     IEnumerator Swing() {

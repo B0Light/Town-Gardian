@@ -182,7 +182,6 @@ public class Player : MonoBehaviour
             
         // 캐릭터를 나아가는 방향으로 보게 한다.
         transform.forward = moveVec;
-
          //마우스 회전
          /*
          if (!isDead)
@@ -263,11 +262,12 @@ public class Player : MonoBehaviour
             return;
 
         Range range = equipWeapon.GetComponent<Range>();
-
+        int leftBullet = range._curAmmo;
         int reAmmo = ammo < range._maxAmo ? ammo : range._maxAmo;
-        range._maxAmo = reAmmo;
-        ammo -= reAmmo;             // 30발 장전할 수 잇는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
-                                    // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
+        range._curAmmo = reAmmo;
+        ammo -= reAmmo;             // 30발 장전할 수 있는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
+        ammo += leftBullet;         // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
+                                    // 다른 방법으로 해결하였습니다!! 잔여 총알 개수를 먼저 가저온 후 재장전 후 보유 총알에 잔여총알을 더하였습니다.
 
         isRelaod = false;
     }
@@ -330,7 +330,15 @@ public class Player : MonoBehaviour
                 else
                 {
                     // upGrade item;
-
+                    if (weaponIndex == 0)
+                    {
+                         weapons[weaponIndex].GetComponent<Melee>().UpGrade();
+                    }
+                    else
+                    {
+                         weapons[weaponIndex].GetComponent<Range>().UpGrade();
+                    }
+                       
                 }
                 
                 Destroy(nearObject);
