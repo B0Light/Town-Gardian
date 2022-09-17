@@ -74,7 +74,6 @@ public class Enemy : MonoBehaviour
             rbody.velocity = Vector3.zero;
             rbody.angularVelocity = Vector3.zero;
         }
-        
     }
 
     void Targeting()
@@ -144,8 +143,7 @@ public class Enemy : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 break;
         }
-        
-        
+
         isChase = true;
         isAtk = false;
         anim.SetBool("isAtk",false);
@@ -209,23 +207,25 @@ public class Enemy : MonoBehaviour
             {
                 case Type.A:
                     manager.enemyCntA--;
-                    deathCoin = 0;
+                    deathCoin = UnityEngine.Random.Range(0, 3);
                     break;
                 case Type.B:
                     manager.enemyCntB--;
-                    deathCoin = 1;
+                    deathCoin = UnityEngine.Random.Range(0, 3);
                     break;
                 case Type.C:
                     manager.enemyCntC--;
-                    deathCoin = 1;
+                    deathCoin = UnityEngine.Random.Range(0, 3);
                     break;
                 case Type.D:
                     manager.enemyCntD--;
-                    deathCoin = 2;
+                    deathCoin = UnityEngine.Random.Range(0, 3);
                     break;
             }
-            Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
-            
+            GameObject coin = Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
+            Rigidbody rcoin = coin.GetComponent<Rigidbody>();
+            rcoin.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            rcoin.AddTorque(Vector3.forward * 20, ForceMode.Impulse);
             
             if(isGrenade)
             { 

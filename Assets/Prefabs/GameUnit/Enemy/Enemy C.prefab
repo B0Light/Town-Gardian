@@ -109,8 +109,8 @@ MonoBehaviour:
   bullet: {fileID: 5045526678847312303, guid: a83d07e5f1c115042940f4c2ddedd356, type: 3}
   coins:
   - {fileID: 5693251702967212441, guid: e4dc89e74f4794243b2457187e380ae5, type: 3}
-  - {fileID: 9032352697547488528, guid: f978e8ef75e49f24d81be66ff5ee3574, type: 3}
   - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
+  - {fileID: 9032352697547488528, guid: f978e8ef75e49f24d81be66ff5ee3574, type: 3}
   isChase: 0
   isAtk: 0
   isDead: 0

@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
-                enemySpawn[0].position, enemySpawn[0].rotation);
+                enemySpawn[2].position, enemySpawn[2].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
             enemy.target = player.transform;
             boss = instantEnemy.GetComponent<Boss>();

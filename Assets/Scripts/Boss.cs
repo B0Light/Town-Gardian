@@ -84,7 +84,7 @@ public class Boss : Enemy
     {
         isLook = false;
         anim.SetTrigger("doBigShot");
-        Instantiate(bullet, transform.position, transform.rotation);
+        Instantiate(bullet, transform.position + Vector3.up * 3, transform.rotation);
         yield return new WaitForSeconds(3f);
 
         isLook = true;
