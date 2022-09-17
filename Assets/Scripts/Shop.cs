@@ -17,7 +17,10 @@ public class Shop : MonoBehaviour
     public void Enter(Player player)
     {
         enterPlayer = player;
+
+        uiGroup.gameObject.SetActive(true);
         uiGroup.anchoredPosition = Vector3.zero;
+
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }
@@ -26,7 +29,10 @@ public class Shop : MonoBehaviour
     public void Exit()
     { 
         anim.SetTrigger("doHello");
+
+        uiGroup.gameObject.SetActive(false);
         uiGroup.anchoredPosition = Vector3.down * 1000;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
