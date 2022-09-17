@@ -106,7 +106,8 @@ public class GameManager : MonoBehaviour
     }
     public void StageEnd()
     {
-        player.transform.position = Vector3.up * 0.8f;
+        Vector3 playerRespond = new Vector3(0, 10, -16);
+        player.transform.position = playerRespond;
         itemShop.SetActive(true);
         weaponShop.SetActive(true);
         startZone.SetActive(true);
