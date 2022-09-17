@@ -5941,7 +5941,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4104035489464760638}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: Exit
         m_Mode: 1

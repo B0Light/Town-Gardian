@@ -83187,7 +83187,7 @@ Camera:
   m_GameObject: {fileID: 1610723079}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -83204,8 +83204,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -98042,10 +98042,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6048048742522834748, guid: ccef9e415728e814baf47af3a4151f15, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 818582101}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccef9e415728e814baf47af3a4151f15, type: 3}
 --- !u!1001 &472534728706834166
@@ -98575,10 +98571,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1674514240960075088, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1605881934}
     - target: {fileID: 9173463342803426932, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
       propertyPath: m_RootOrder
       value: 12

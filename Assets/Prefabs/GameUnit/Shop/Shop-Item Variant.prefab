@@ -243,7 +243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4104035490294447708, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Name
-      value: Shop-Item
+      value: Shop-Item Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4385753012023107923, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Sprite
@@ -292,10 +292,6 @@ PrefabInstance:
     - target: {fileID: 5802843121167840631, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.5411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 5802843121167840631, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7620043451184493653, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Text
