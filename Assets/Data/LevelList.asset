@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7636d6d03b1544b8c97f450d1c4097, type: 3}
+  m_Name: LevelList
+  m_EditorClassIdentifier: 
+  levels:
+  - id: 0
+    name: Level1
+    description: Protect Town
+    sceneName: GameScene1Town
+  - id: 1
+    name: Level2
+    description: Protect Town2
+    sceneName: GameScene1Town2
+  - id: 2
+    name: Level3
+    description: Protect Town3
+    sceneName: GameScene1Town3

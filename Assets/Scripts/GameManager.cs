@@ -55,8 +55,13 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curScoreText;
     public Text bestText;
+//GameData    
+    public LevelList levelList;
+    private GameDataStore m_DataStore;
+    public static GameManager instance;
     private void Awake()
     {
+        instance = this;
         enemyList = new List<int>();
         maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore")); 
     }
@@ -222,6 +227,16 @@ public class GameManager : MonoBehaviour
         {
             bossHealthGroup.anchoredPosition = Vector3.up * 200;
         }
-            
+    }
+    //
+    public int GetStarsForLevel(string levelId)
+    {
+        if (!levelList.ContainsKey(levelId))
+        {
+            Debug.LogWarningFormat("[GAME] Cannot check if level with id = {0} is completed. Not in level list", levelId);
+            return 0;
+        }
+
+        return m_DataStore.GetNumberOfStarForLevel(levelId);
     }
 }
