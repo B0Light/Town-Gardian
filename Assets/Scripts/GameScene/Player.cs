@@ -35,11 +35,13 @@ public class Player : MonoBehaviour
     public int maxAmmo;
     public int maxCoin;
     public int maxHealth;
+    public float maxStamina;
     public int maxHasGrendes;
 
     public int ammo;
     public int coin;
     public int health;
+    public float stamina;
     public int hasGrendes = 0;
 
     public float speed;
@@ -161,12 +163,18 @@ public class Player : MonoBehaviour
             moveVec = Vector3.Slerp(transform.forward, inputVec, rotateSpeed * Time.deltaTime / angle);
 
         }
+
+        if (!isBorder)
+            transform.position += moveVec * speed * (wDown && stamina>0 ? 2f : 1f) * Time.deltaTime;
+        if (wDown && !isBorder && stamina >= 0) stamina -= 30 * Time.deltaTime;
+        if (!wDown && stamina < maxStamina) stamina += 10 * Time.deltaTime;    
         
-        if(!isBorder)
-            transform.position += moveVec * speed * (wDown ? 0.3f : 1f) * Time.deltaTime;
+            
 
         anim.SetBool("isRun", moveVec != Vector3.zero); 
-        anim.SetBool("isWalk", wDown); 
+        anim.SetBool("isRunFast", wDown);
+        
+        
     }
 
     void Turn()
@@ -273,7 +281,9 @@ public class Player : MonoBehaviour
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead) {
+        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead && stamina >= 5)
+        {
+            stamina -= 30;
             dodgeVec = inputVec;
             speed *= 2;
             anim.SetTrigger("doDodge");

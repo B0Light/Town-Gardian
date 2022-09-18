@@ -125,7 +125,7 @@ public class Enemy : MonoBehaviour
                 break;
             case Type.B:
                 yield return new WaitForSeconds(0.1f);
-                rbody.AddForce(transform.forward * 20, ForceMode.Impulse);
+                rbody.AddForce(transform.forward * 40, ForceMode.Impulse);
                 meleeArea.enabled = true;
 
                 yield return new WaitForSeconds(0.5f);
