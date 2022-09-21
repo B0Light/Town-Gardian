@@ -23,7 +23,7 @@ public class LevelSelectButton : MonoBehaviour
     }
     protected void ChangeScenes()
     {
-       // SceneManager.LoadScene();
+       SceneManager.LoadScene(m_Item.sceneName);
     }
     
     public void Initialize(LevelItem item, MouseScroll mouseScroll)

@@ -16,12 +16,12 @@ MonoBehaviour:
   - id: 0
     name: Level1
     description: Protect Town
-    sceneName: GameScene1Town
+    sceneName: Level1
   - id: 1
     name: Level2
     description: Protect Town2
-    sceneName: GameScene1Town2
+    sceneName: Level2
   - id: 2
     name: Level3
     description: Protect Town3
-    sceneName: GameScene1Town3
+    sceneName: Level3
