@@ -25,3 +25,11 @@ MonoBehaviour:
     name: Level3
     description: Protect Town3
     sceneName: Level3
+  - id: 3
+    name: Level4
+    description: Protect Town4
+    sceneName: Level4
+  - id: 4
+    name: Level5
+    description: Protect Town5
+    sceneName: Level5

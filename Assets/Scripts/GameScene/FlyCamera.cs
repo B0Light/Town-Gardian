@@ -8,7 +8,7 @@ public class FlyCamera : MonoBehaviour
 
     [SerializeField] Vector3 _headCorrection = Vector3.up;
 
-    public float cameraSensitivity = 90;
+    public float cameraSensitivity = 180;
 
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;

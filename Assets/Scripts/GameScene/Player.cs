@@ -316,7 +316,8 @@ public class Player : MonoBehaviour
             equipWeaponIndex = weaponIndex;
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true); 
-            
+            if(equipWeapon.type == Weapon.Type.Range) manager.Aiming();
+            else manager.EndAiming();
             anim.SetTrigger("doSwap");
             isSwap = true;
             Invoke("SwapOut", 0.4f);

@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     public RectTransform bossHealthBar;
     public Text curScoreText;
     public Text bestText;
+
+    public GameObject crossHair;
 //GameData    
     public LevelList levelList;
     private GameDataStore m_DataStore;
@@ -111,7 +113,8 @@ public class GameManager : MonoBehaviour
     }
     public void StageEnd()
     {
-        player.transform.position = Vector3.up * 0.8f;
+        Vector3 playerSpawnPos = new Vector3(0, 0, -16);
+        player.transform.position = playerSpawnPos;
         itemShop.SetActive(true);
         weaponShop.SetActive(true);
         startZone.SetActive(true);
@@ -174,6 +177,16 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(4f);
         boss = null;
         StageEnd();
+    }
+
+    public void Aiming()
+    {
+        crossHair.SetActive(true);
+    }
+    
+    public void EndAiming()
+    {
+        crossHair.SetActive(false);
     }
     private void Update()
     {
