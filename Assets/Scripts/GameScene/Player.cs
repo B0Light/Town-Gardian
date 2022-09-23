@@ -149,7 +149,7 @@ public class Player : MonoBehaviour
         if (isDodge) {
             moveVec = dodgeVec;
         }
-        else if (isSwap || !isFireReady || isRelaod || isDead) {
+        else if (isSwap || !isFireReady || isDead) {
             moveVec = Vector3.zero;  //|| !isFireReady
         }
         else {
@@ -259,7 +259,7 @@ public class Player : MonoBehaviour
         {
             anim.SetTrigger("doReload");
             isRelaod = true;
-            
+            speed *= 0.2f;
             Invoke("ReloadOut", 3f);
         }
     }
@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
         ammo -= reAmmo;             // 30발 장전할 수 있는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
         ammo += leftBullet;         // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
                                     // 다른 방법으로 해결하였습니다!! 잔여 총알 개수를 먼저 가저온 후 재장전 후 보유 총알에 잔여총알을 더하였습니다.
-
+        speed *= 5f;
         isRelaod = false;
     }
     void Dodge()

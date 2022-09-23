@@ -10,6 +10,7 @@ public class Shop : MonoBehaviour
     public GameObject[] itemObj;
     public int[] itemPrice;
     public Transform[] itemPos;
+    public Text[] itemPriceTexts;
     public Text talkText;
     public string[] talkData;
     private Player enterPlayer;
@@ -32,7 +33,10 @@ public class Shop : MonoBehaviour
 
         uiGroup.gameObject.SetActive(false);
         uiGroup.anchoredPosition = Vector3.down * 1000;
-
+        for(int i = 0; i < itemPrice.Length; i++)
+        {
+            itemPriceTexts[i].text = itemPrice[i] + "G";
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
