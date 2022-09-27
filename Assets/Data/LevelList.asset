@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - id: 0
-    name: Level1
+    name: Town
     description: Protect Town
-    sceneName: Level1
+    sceneName: 1.MainCamp
   - id: 1
-    name: Level2
-    description: Protect Town2
-    sceneName: Level2
+    name: Story
+    description: Protect Town
+    sceneName: 2.GameScene
   - id: 2
     name: Level3
     description: Protect Town3

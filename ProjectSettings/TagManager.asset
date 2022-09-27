@@ -13,6 +13,7 @@ TagManager:
   - Enemy
   - EnemyBullet
   - Shop
+  - Ship
   layers:
   - Default
   - TransparentFX
@@ -30,7 +31,7 @@ TagManager:
   - Enemy
   - EnemyDead
   - EnemyBullet
-  - 
+  - PostProcessing
   - 
   - 
   - 

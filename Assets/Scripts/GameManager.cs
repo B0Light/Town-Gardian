@@ -7,13 +7,24 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
+
 public class GameManager : MonoBehaviour
 {
+    public enum SceneType
+    {
+        Login, 
+        Lobby, 
+        Camp,
+        Game, 
+        Shop
+    }
+
+    public SceneType SType;
 //Cam    
     public GameObject menuCam;
     public GameObject gameCam;
 //Obj    
-    public Player player;
+    private Player player;
     public Boss boss;
 
     public GameObject itemShop;
@@ -63,11 +74,33 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private void Awake()
     {
+        /*
+        if (instance)
+        {
+            DestroyImmediate(this.gameObject);
+            return;
+        }
         instance = this;
-        enemyList = new List<int>();
-        maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore")); 
+        DontDestroyOnLoad(gameObject);
+        */
+        instance = this;
+        //if (SceneManager.GetActiveScene().name == "MainCamp") SType = SceneType.Camp;
+        //if (SceneManager.GetActiveScene().name == "GameScene") SType = SceneType.Game;
+        switch (SType)
+        {
+            case SceneType.Game:
+                enemyList = new List<int>(); 
+                maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore"));
+                break;
+        }
+        
     }
-    
+
+    private void Start()
+    {
+        player = FindObjectOfType<Player>();
+    }
+
     public void GameStart()
     {
         menuCam.SetActive(false);
@@ -77,6 +110,7 @@ public class GameManager : MonoBehaviour
         gamePanel.SetActive(true);
         
         player.gameObject.SetActive(true);
+        
     }
 
     public void GameOver()
@@ -195,16 +229,11 @@ public class GameManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        // UI 
-        scoText.text = string.Format("{0:n0}", player.score);
-        stageText.text = "STAGE " + stage;
-
-        int hour = (int)(playTime / 3600);
-        int min = (int)((playTime - hour * 3600) / 60);
-        int sec = (int)(playTime % 60);
-        playTimeText.text =  string.Format("{0:00}", hour) + ":" 
-                          + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", sec);
-        
+        //Weapon UI
+        Weapon1Img.color = new Color(1, 1, 1, player.hasWeapons[0] ? 1 : 0);
+        Weapon2Img.color = new Color(1, 1, 1, player.hasWeapons[1] ? 1 : 0);
+        Weapon3Img.color = new Color(1, 1, 1, player.hasWeapons[2] ? 1 : 0);
+        WeaponRImg.color = new Color(1, 1, 1, player.hasGrendes > 0 ? 1 : 0);
         // Player UI
         playerHealthText.text = player.health + "/" + player.maxHealth;
         playerCoinText.text = string.Format("{0:n0}", player.coin);
@@ -215,33 +244,47 @@ public class GameManager : MonoBehaviour
         else {
             Range range;
             range = player.equipWeapon.GetComponent<Range>();
-
             playerAmmoText.text = range._curAmmo + "/" + player.ammo;
         }
-
-        //Weapon UI
-        Weapon1Img.color = new Color(1, 1, 1, player.hasWeapons[0] ? 1 : 0);
-        Weapon2Img.color = new Color(1, 1, 1, player.hasWeapons[1] ? 1 : 0);
-        Weapon3Img.color = new Color(1, 1, 1, player.hasWeapons[2] ? 1 : 0);
-        WeaponRImg.color = new Color(1, 1, 1, player.hasGrendes > 0 ? 1 : 0);
-
-        //Cnt Enemy UI
-        enemyAText.text = enemyCntA.ToString();
-        enemyBText.text = enemyCntB.ToString();
-        enemyCText.text = enemyCntC.ToString();
-
-        //Boss Health UI
-        if (boss != null)
+        
+        switch (SType)
         {
-            bossHealthGroup.anchoredPosition = Vector3.down * 30;
-            bossHealthBar.localScale = new Vector3((float)boss.curHealth / boss.maxHealth, 1, 1);
-        }
-        else
-        {
-            bossHealthGroup.anchoredPosition = Vector3.up * 200;
-        }
+            case SceneType.Camp:
+                stageText.text = "roost";
+                
+                break;
+            case SceneType.Game: 
+                // UI 
+                scoText.text = string.Format("{0:n0}", player.score);
+                stageText.text = "STAGE " + stage;
+
+                int hour = (int)(playTime / 3600);
+                int min = (int)((playTime - hour * 3600) / 60);
+                int sec = (int)(playTime % 60);
+                playTimeText.text =  string.Format("{0:00}", hour) + ":" 
+                                  + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", sec);
+        
+                //Cnt Enemy UI
+                enemyAText.text = enemyCntA.ToString();
+                enemyBText.text = enemyCntB.ToString();
+                enemyCText.text = enemyCntC.ToString();
+
+                //Boss Health UI
+                if (boss != null)
+                {
+                    bossHealthGroup.anchoredPosition = Vector3.down * 30;
+                    bossHealthBar.localScale = new Vector3((float)boss.curHealth / boss.maxHealth, 1, 1);
+                }
+                else
+                {
+                    bossHealthGroup.anchoredPosition = Vector3.up * 200;
+                }
+                break;
+        }     
+        
     }
     //
+    /*
     public int GetStarsForLevel(string levelId)
     {
         if (!levelList.ContainsKey(levelId))
@@ -252,4 +295,5 @@ public class GameManager : MonoBehaviour
 
         return m_DataStore.GetNumberOfStarForLevel(levelId);
     }
+    */
 }

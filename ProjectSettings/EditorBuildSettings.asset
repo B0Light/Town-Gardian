@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TiltleSecene.unity
+    path: Assets/Scenes/0.TiltleSecene.unity
     guid: 15bc770b80933f24b8dda11ce5a866ed
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/1.MainCamp.unity
+    guid: e21e59967b1933d43a5e84a46ab9afe8
+  - enabled: 1
+    path: Assets/Scenes/2.GameScene.unity
     guid: d03355cb2b2cc99428f6e1bfb113b182
   m_configObjects: {}
