@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class State {
@@ -24,7 +25,7 @@ public class State {
 
 public class Player : MonoBehaviour
 {
-    public GameManager manager;
+    private GameManager manager;
     public Camera followCamera;
     
     private static Player s_Instance = null;
@@ -122,8 +123,20 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isFireReady = true;
+        manager = FindObjectOfType<GameManager>();
     }
-
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        manager = FindObjectOfType<GameManager>();
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     // Update is called once per frame
     void Update()
     {
