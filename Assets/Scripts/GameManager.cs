@@ -140,6 +140,7 @@ public class GameManager : MonoBehaviour
     {
         Vector3 playerSpawnPos = new Vector3(0, 0, -16);
         player.transform.position = playerSpawnPos;
+        player.transform.rotation = Quaternion.Euler(0,0,0);
         itemShop.SetActive(true);
         weaponShop.SetActive(true);
         startZone.SetActive(true);

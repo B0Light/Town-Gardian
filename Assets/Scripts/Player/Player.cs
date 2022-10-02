@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     private bool sDown1;
     private bool sDown2;
     private bool sDown3;
+    private bool sDown4;
 
     private bool fDown;
     private float fireDelay;
@@ -168,6 +169,7 @@ public class Player : MonoBehaviour
         sDown1 = Input.GetButtonDown("Swap1");
         sDown2 = Input.GetButtonDown("Swap2");
         sDown3 = Input.GetButtonDown("Swap3");
+        sDown4 = Input.GetButtonDown("Swap4");
     }
 
     void Move()
@@ -330,11 +332,13 @@ public class Player : MonoBehaviour
         if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0)) return;
         if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1)) return;
         if (sDown3 && (!hasWeapons[2] || equipWeaponIndex == 2)) return;
+        if (sDown4 && (!hasWeapons[3] || equipWeaponIndex == 3)) return;
         int weaponIndex = -1;
         if (sDown1) weaponIndex = 0;
         if (sDown2) weaponIndex = 1;
         if (sDown3) weaponIndex = 2;
-        if ((sDown1 || sDown2 || sDown3) && !isDodge && !isJump && !isDead)
+        if (sDown4) weaponIndex = 3;
+        if ((sDown1 || sDown2 || sDown3|| sDown4) && !isDodge && !isJump && !isDead)
         {
             if(equipWeapon != null)
                 equipWeapon.gameObject.SetActive(false);

@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     public Transform target;
     public BoxCollider meleeArea;
     public GameObject bullet;
-    public GameObject[] coins;
+    public GameObject[] rewards;
     
     public bool isChase;
     public bool isAtk;
@@ -207,22 +207,22 @@ public class Enemy : MonoBehaviour
             {
                 case Type.A:
                     manager.enemyCntA--;
-                    deathCoin = UnityEngine.Random.Range(0, 3);
+                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
                     break;
                 case Type.B:
                     manager.enemyCntB--;
-                    deathCoin = UnityEngine.Random.Range(0, 3);
+                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
                     break;
                 case Type.C:
                     manager.enemyCntC--;
-                    deathCoin = UnityEngine.Random.Range(0, 3);
+                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
                     break;
                 case Type.D:
                     manager.enemyCntD--;
-                    deathCoin = UnityEngine.Random.Range(0, 3);
+                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
                     break;
             }
-            GameObject coin = Instantiate(coins[deathCoin],transform.position, Quaternion.identity);
+            GameObject coin = Instantiate(rewards[deathCoin],transform.position, Quaternion.identity);
             Rigidbody rcoin = coin.GetComponent<Rigidbody>();
             rcoin.AddForce(Vector3.up * 10, ForceMode.Impulse);
             rcoin.AddTorque(Vector3.forward * 20, ForceMode.Impulse);

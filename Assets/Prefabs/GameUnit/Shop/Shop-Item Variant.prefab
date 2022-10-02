@@ -149,6 +149,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: 1000G
       objectReference: {fileID: 0}
+    - target: {fileID: 4104035489464760626, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4104035489464760638, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: anim
       value: 
