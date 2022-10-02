@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,18 +75,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     private void Awake()
     {
-        /*
-        if (instance)
-        {
-            DestroyImmediate(this.gameObject);
-            return;
-        }
         instance = this;
-        DontDestroyOnLoad(gameObject);
-        */
-        instance = this;
-        //if (SceneManager.GetActiveScene().name == "MainCamp") SType = SceneType.Camp;
-        //if (SceneManager.GetActiveScene().name == "GameScene") SType = SceneType.Game;
+        if (SceneManager.GetActiveScene().name == "MainCamp") SType = SceneType.Camp;
+        if (SceneManager.GetActiveScene().name == "GameScene") SType = SceneType.Game;
         switch (SType)
         {
             case SceneType.Game:
@@ -93,7 +85,6 @@ public class GameManager : MonoBehaviour
                 maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore"));
                 break;
         }
-        
     }
 
     private void Start()
@@ -110,7 +101,6 @@ public class GameManager : MonoBehaviour
         gamePanel.SetActive(true);
         
         player.gameObject.SetActive(true);
-        
     }
 
     public void GameOver()
@@ -131,7 +121,8 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("0.TitleScene");
+        Destroy(player.gameObject);
+        SceneManager.LoadScene(1);
     }
     public void StageStart()
     {

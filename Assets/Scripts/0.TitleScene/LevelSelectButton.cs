@@ -9,7 +9,7 @@ public class LevelSelectButton : MonoBehaviour
 {
     protected Button m_Button;
 
-
+    private Player player;
     public Text titleDisplay;
     public Text description;
     public Sprite starAchieved;
@@ -23,6 +23,11 @@ public class LevelSelectButton : MonoBehaviour
     }
     protected void ChangeScenes()
     {
+        if (m_Item.sceneName == "2.GameScene")
+        {
+            player = FindObjectOfType<Player>();
+            player.transform.position = new Vector3(0, 1, -16);
+        }
         SceneManager.LoadScene(m_Item.sceneName);
     }
     
