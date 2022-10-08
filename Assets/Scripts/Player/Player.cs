@@ -377,6 +377,9 @@ public class Player : MonoBehaviour
                     if (weaponIndex == 0)
                     {
                          weapons[weaponIndex].GetComponent<Melee>().UpGrade();
+                    }else if (weaponIndex == 3)
+                    {
+                        weapons[weaponIndex].GetComponent<SpellSword>().UpGrade();
                     }
                     else
                     {

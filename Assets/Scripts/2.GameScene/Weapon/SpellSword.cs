@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class SpellSword : Weapon
 {
     private Player player;
+    private Transform[] curPos;
     [SerializeField] GameObject spell;
     [SerializeField] Transform[] spellPos;
     private void Awake()
@@ -18,6 +19,7 @@ public class SpellSword : Weapon
         if (player.stamina >= 10)
         {
             player.stamina -= 10;
+            curPos = spellPos;
             StopCoroutine("Shot");
             StartCoroutine("Shot");
         }
@@ -28,15 +30,17 @@ public class SpellSword : Weapon
         level++;
     }
 
-    IEnumerator Shot() {
-        for (int i = 0; i < spellPos.Length; i++)
+    IEnumerator Shot()
+    {
+        for (int i = 0; i < level; i++)
         {
-            GameObject instantsword = Instantiate(spell, spellPos[i].position, spellPos[i].rotation);
+            int pos = i % spellPos.Length;
+            GameObject instantsword = Instantiate(spell, curPos[pos].position, curPos[pos].rotation);
             Bullet newSword = instantsword.GetComponent<Bullet>();
             newSword.UpGradeBullet(level);
             Rigidbody bulletRigid = instantsword.GetComponent<Rigidbody>();
             bulletRigid.velocity = player.gameObject.transform.forward * 20;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
         
     }
