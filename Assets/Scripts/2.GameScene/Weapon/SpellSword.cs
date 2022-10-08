@@ -10,6 +10,8 @@ public class SpellSword : Weapon
     private Transform[] curPos;
     [SerializeField] GameObject spell;
     [SerializeField] Transform[] spellPos;
+    [SerializeField] BoxCollider _meleeArea = null;
+    public TrailRenderer _trailEffect;
     private void Awake()
     {
         player = FindObjectOfType<Player>();
@@ -32,6 +34,16 @@ public class SpellSword : Weapon
 
     IEnumerator Shot()
     {
+        yield return new WaitForSeconds(0.1f);
+        _meleeArea.enabled = true;
+        _trailEffect.enabled = true;
+
+        yield return new WaitForSeconds(0.4f);
+        _meleeArea.enabled = false;
+
+        yield return new WaitForSeconds(0.1f);
+        _trailEffect.enabled = false;
+
         for (int i = 0; i < level; i++)
         {
             int pos = i % spellPos.Length;

@@ -110,9 +110,10 @@ MonoBehaviour:
   rewards:
   - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
   - {fileID: 9032352697547488528, guid: f978e8ef75e49f24d81be66ff5ee3574, type: 3}
-  - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
+  - {fileID: 179294876002765682, guid: e670496d67ceb9545a46543786589aa6, type: 3}
   - {fileID: 179294876002765682, guid: e670496d67ceb9545a46543786589aa6, type: 3}
   - {fileID: 3020725798605949018, guid: f7ab6074f9d7b15468af932a43cf0c3c, type: 3}
+  - {fileID: 6894747590295734270, guid: 5caea68d8b506d64ebce6534fe85e6c2, type: 3}
   isChase: 0
   isAtk: 0
   isDead: 0

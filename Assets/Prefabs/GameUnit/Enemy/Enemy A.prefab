@@ -113,6 +113,7 @@ MonoBehaviour:
   - {fileID: 5693251702967212441, guid: e4dc89e74f4794243b2457187e380ae5, type: 3}
   - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
   - {fileID: 179294876002765682, guid: e670496d67ceb9545a46543786589aa6, type: 3}
+  - {fileID: 2872788579146810808, guid: 3759a16ec0ec83e4baed329021eb37b3, type: 3}
   isChase: 0
   isAtk: 0
   isDead: 0

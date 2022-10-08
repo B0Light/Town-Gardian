@@ -88,9 +88,10 @@ MonoBehaviour:
   bullet: {fileID: 0}
   rewards:
   - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
-  - {fileID: 4617750646605604933, guid: 60e37d300968fa244a50ebb269aafc74, type: 3}
+  - {fileID: 2027298533013675408, guid: 302ce07f8c7e46248b79068d914fd7ed, type: 3}
   - {fileID: 9032352697547488528, guid: f978e8ef75e49f24d81be66ff5ee3574, type: 3}
   - {fileID: 2027298533013675408, guid: 302ce07f8c7e46248b79068d914fd7ed, type: 3}
+  - {fileID: 3020725798605949018, guid: f7ab6074f9d7b15468af932a43cf0c3c, type: 3}
   isChase: 0
   isAtk: 0
   isDead: 0

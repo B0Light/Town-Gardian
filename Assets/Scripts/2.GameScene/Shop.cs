@@ -21,7 +21,10 @@ public class Shop : MonoBehaviour
 
         uiGroup.gameObject.SetActive(true);
         uiGroup.anchoredPosition = Vector3.zero;
-
+        for (int i = 0; i < itemPrice.Length; i++)
+        {
+            itemPriceTexts[i].text = itemPrice[i] + "G";
+        }
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

@@ -10,18 +10,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class State {
-    public int maxAmmo;
-    public int maxCoin;
-    public int maxHealth;
-    public int maxHasGrendes;
-
-    public int ammo;
-    public int coin;
-    public int health;
-    public int hasGrendes = 0;
-
-}
 
 public class Player : MonoBehaviour
 {
@@ -36,15 +24,15 @@ public class Player : MonoBehaviour
 
     public State state;
 
-    public int maxAmmo;
-    public int maxCoin;
-    public int maxHealth;
-    public float maxStamina;
+    private int maxAmmo = 9999;
+    private int maxCoin = 9999999;
+    public float maxHealth = 100;
+    public float maxStamina = 100;
     public int maxHasGrendes;
 
     public int ammo;
     public int coin;
-    public int health;
+    public float health;
     public float stamina;
     public int hasGrendes = 0;
 
