@@ -14,6 +14,7 @@ TagManager:
   - EnemyBullet
   - Shop
   - Ship
+  - SpellSword
   layers:
   - Default
   - TransparentFX

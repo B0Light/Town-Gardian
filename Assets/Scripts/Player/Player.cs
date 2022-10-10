@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     private GameManager manager;
+    private UiManager _uiManager;
     public Camera followCamera;
     
     private static Player s_Instance = null;
@@ -86,7 +87,9 @@ public class Player : MonoBehaviour
     public float slowMoveFactor = 0.25f;
     public float fastMoveFactor = 3;
     [SerializeField] float rotateSpeed = 360;
-
+    //Game Data
+    public LevelList levelList;
+    private GameDataStore m_DataStore;
     
     //
     // Start is called before the first frame update
@@ -104,7 +107,6 @@ public class Player : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rbody = GetComponent<Rigidbody>();
         meshs = GetComponentsInChildren<MeshRenderer>();
-
         //PlayerPrefs.SetInt("MaxScore", 199999);
         //Debug.Log(PlayerPrefs.GetInt("MaxScore"));
     }
@@ -114,6 +116,7 @@ public class Player : MonoBehaviour
         isFireReady = true;
         manager = FindObjectOfType<GameManager>();
     }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -226,7 +229,7 @@ public class Player : MonoBehaviour
     {
         if (jDown && !isJump && !isDodge && !isSwap  &&!isShop && !isDead)
         {
-            rbody.AddForce(Vector3.up * 15, ForceMode.Impulse);
+            rbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
             anim.SetBool("isJump", true); 
             anim.SetTrigger("doJump");
             isJump = true;
@@ -334,11 +337,13 @@ public class Player : MonoBehaviour
             equipWeaponIndex = weaponIndex;
             equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
             equipWeapon.gameObject.SetActive(true);
+            /*
             if (manager.SType == GameManager.SceneType.Game)
             {
-                if(equipWeapon.type == Weapon.Type.Range) manager.Aiming();
-                else manager.EndAiming();
+                if(equipWeapon.type == Weapon.Type.Range) _uiManager.Aiming();
+                else _uiManager.EndAiming();
             }
+            */
             anim.SetTrigger("doSwap");
             isSwap = true;
             Invoke("SwapOut", 0.4f);
@@ -417,6 +422,10 @@ public class Player : MonoBehaviour
                     if (health > maxHealth)
                         health = maxHealth;
                     break;
+                case Item.Type.MaxHeart:
+                    maxHealth += item.value;
+                    health += item.value;
+                    break;
                 case Item.Type.Grenade:
                     hasGrendes++;
                     if (hasGrendes > maxHasGrendes)
@@ -443,7 +452,7 @@ public class Player : MonoBehaviour
     {
         isDmg = true;
         foreach (MeshRenderer mesh in meshs)
-            mesh.material.color = Color.yellow;
+            mesh.material.color = Color.yellow+Color.red;
         
         if(isBossAtk)
             rbody.AddForce(transform.forward * -20, ForceMode.Impulse);
@@ -466,6 +475,7 @@ public class Player : MonoBehaviour
     {
         anim.SetTrigger("doDie");
         isDead = true;
+        StopAllCoroutines();
         manager.GameOver();
     }
     
@@ -510,5 +520,10 @@ public class Player : MonoBehaviour
     public static float GetAngle(Vector3 vStart, Vector3 vEnd) {
         Vector3 v = vEnd - vStart;
         return Mathf.Atan2(v.x, v.z) * Mathf.Rad2Deg;
+    }
+
+    public void GameOver()
+    {
+        manager.Restart();
     }
 }

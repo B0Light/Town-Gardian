@@ -12,6 +12,7 @@ public class SpellSword : Weapon
     [SerializeField] Transform[] spellPos;
     [SerializeField] BoxCollider _meleeArea = null;
     public TrailRenderer _trailEffect;
+    public int _dmg = 50;
     private void Awake()
     {
         player = FindObjectOfType<Player>();

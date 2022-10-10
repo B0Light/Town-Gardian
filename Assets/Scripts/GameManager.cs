@@ -26,8 +26,10 @@ public class GameManager : MonoBehaviour
     public GameObject gameCam;
 //Obj    
     private Player player;
+    private UiManager _uiManager;
     public Boss boss;
-
+    
+    public GameObject clearShip;
     public GameObject itemShop;
     public GameObject weaponShop;
     public GameObject startZone;
@@ -45,32 +47,8 @@ public class GameManager : MonoBehaviour
     public int enemyCntB;
     public int enemyCntC;
     public int enemyCntD;
-//UI
-    public GameObject menuPanel;
-    public GameObject gamePanel;
-    public GameObject overPanel;
-    public Text maxScoText;
-    public Text scoText;
-    public Text stageText;
-    public Text playTimeText;
-    public Text playerHealthText;
-    public Text playerAmmoText;
-    public Text playerCoinText;
-    public Image Weapon1Img;
-    public Image Weapon2Img;
-    public Image Weapon3Img;
-    public Image WeaponRImg;
-    public Text enemyAText;
-    public Text enemyBText;
-    public Text enemyCText;
-    public RectTransform bossHealthGroup;
-    public RectTransform bossHealthBar;
-    public Text curScoreText;
-    public Text bestText;
-
-    public GameObject crossHair;
 //GameData    
-    public LevelList levelList;
+    
     private GameDataStore m_DataStore;
     public static GameManager instance;
     private void Awake()
@@ -78,6 +56,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         if (SceneManager.GetActiveScene().name == "MainCamp") SType = SceneType.Camp;
         if (SceneManager.GetActiveScene().name == "GameScene") SType = SceneType.Game;
+        /*
         switch (SType)
         {
             case SceneType.Game:
@@ -85,36 +64,38 @@ public class GameManager : MonoBehaviour
                 maxScoText.text = string.Format("{0:n0}",PlayerPrefs.GetInt("MaxScore"));
                 break;
         }
+        */
     }
 
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        _uiManager = FindObjectOfType<UiManager>();
     }
 
     public void GameStart()
     {
         menuCam.SetActive(false);
         gameCam.SetActive(true);
-        
-        menuPanel.SetActive(false);
-        gamePanel.SetActive(true);
+        _uiManager.menuPanel.SetActive(false);
+        _uiManager.gamePanel.SetActive(true);
         
         player.gameObject.SetActive(true);
     }
 
     public void GameOver()
     {
+        StopAllCoroutines();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
-        gamePanel.SetActive(false);
-        overPanel.SetActive(true);
-        curScoreText.text = scoText.text;
+        _uiManager.gamePanel.SetActive(false);
+        _uiManager.overPanel.SetActive(true);
+        _uiManager.curScoreText.text = _uiManager.scoText.text;
 
         int maxSco = PlayerPrefs.GetInt("MaxScore");
         if (player.score > maxSco)
         {
-            bestText.gameObject.SetActive(true);
+            _uiManager.bestText.gameObject.SetActive(true);
             PlayerPrefs.SetInt("MaxScore",player.score);
         }
     }
@@ -138,12 +119,22 @@ public class GameManager : MonoBehaviour
     }
     public void StageEnd()
     {
+        _uiManager.enemyGroup.SetActive(false);
+        _uiManager.BossGroup.SetActive(false);
         Vector3 playerSpawnPos = new Vector3(0, 0, -16);
         player.transform.position = playerSpawnPos;
         player.transform.rotation = Quaternion.Euler(0,0,0);
-        itemShop.SetActive(true);
-        weaponShop.SetActive(true);
-        startZone.SetActive(true);
+        if (stage <= 10)
+        {
+            itemShop.SetActive(true);
+            weaponShop.SetActive(true);
+            startZone.SetActive(true);
+        }
+        else
+        {
+            ClearStage();
+        }
+       
         
         foreach (Transform zone in enemySpawn)
             zone.gameObject.SetActive(false);
@@ -154,19 +145,21 @@ public class GameManager : MonoBehaviour
 
     IEnumerator InBattle()
     {
+        _uiManager.enemyGroup.SetActive(true);
+        _uiManager.BossGroup.SetActive(true);
         if (stage % 5 == 0)
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
                 enemySpawn[2].position, enemySpawn[2].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
+            enemy.Upgrade(stage);
             enemy.target = player.transform;
             boss = instantEnemy.GetComponent<Boss>();
             enemy.manager = this;
         }
         else
-        {
-            for (int i = 0; i < stage; i++)
+            for (int i = 0; i < 2+stage; i++)
             {
                 int ran = Random.Range(0, 3);
                 enemyList.Add(ran);
@@ -183,100 +176,43 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
-            while (enemyList.Count > 0){
-                int ranZone = Random.Range(0, 4);
-                GameObject instantEnemy = Instantiate(enemies[enemyList[0]],
-                    enemySpawn[ranZone].position, enemySpawn[ranZone].rotation);
-                Enemy enemy = instantEnemy.GetComponent<Enemy>();
-                enemy.target = player.transform;
-                enemy.manager = this;
-                enemyList.RemoveAt(0);
-                yield return new WaitForSeconds(4f);
-            }
+        while (enemyList.Count > 0){
+            int ranZone = Random.Range(0, 4);
+            GameObject instantEnemy = Instantiate(enemies[enemyList[0]],
+                enemySpawn[ranZone].position, enemySpawn[ranZone].rotation);
+            Enemy enemy = instantEnemy.GetComponent<Enemy>();
+            enemy.Upgrade(stage);
+            enemy.target = player.transform;
+            enemy.manager = this;
+            enemyList.RemoveAt(0);
+            yield return new WaitForSeconds(1f);
         }
+        
 
         while (enemyCntA + enemyCntB + enemyCntC + enemyCntD > 0)
         {
             yield return null;
         }
 
-        yield return new WaitForSeconds(4f);
-        boss = null;
-        StageEnd();
+        if (enemyCntA + enemyCntB + enemyCntC + enemyCntD == 0)
+        {
+            yield return new WaitForSeconds(2f);
+            boss = null;
+            StageEnd();
+        }
     }
 
-    public void Aiming()
-    {
-        crossHair.SetActive(true);
-    }
-    
-    public void EndAiming()
-    {
-        crossHair.SetActive(false);
-    }
     private void Update()
     {
         if (isBattle) playTime += Time.deltaTime;
     }
 
-    private void LateUpdate()
+    void ClearStage()
     {
-        //Weapon UI
-        Weapon1Img.color = new Color(1, 1, 1, player.hasWeapons[0] ? 1 : 0);
-        Weapon2Img.color = new Color(1, 1, 1, player.hasWeapons[1] ? 1 : 0);
-        Weapon3Img.color = new Color(1, 1, 1, player.hasWeapons[2] ? 1 : 0);
-        WeaponRImg.color = new Color(1, 1, 1, player.hasGrendes > 0 ? 1 : 0);
-        // Player UI
-        playerHealthText.text = player.health + "/" + player.maxHealth;
-        playerCoinText.text = string.Format("{0:n0}", player.coin);
-        if (player.equipWeapon == null)
-            playerAmmoText.text = "- / " + player.ammo;
-        else if (player.equipWeapon.type == Weapon.Type.Melee)
-            playerAmmoText.text = "- / " + player.ammo;
-        else {
-            Range range;
-            range = player.equipWeapon.GetComponent<Range>();
-            playerAmmoText.text = range._curAmmo + "/" + player.ammo;
-        }
-        
-        switch (SType)
-        {
-            case SceneType.Camp:
-                stageText.text = "roost";
-                
-                break;
-            case SceneType.Game: 
-                // UI 
-                scoText.text = string.Format("{0:n0}", player.score);
-                stageText.text = "STAGE " + stage;
-
-                int hour = (int)(playTime / 3600);
-                int min = (int)((playTime - hour * 3600) / 60);
-                int sec = (int)(playTime % 60);
-                playTimeText.text =  string.Format("{0:00}", hour) + ":" 
-                                  + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", sec);
-        
-                //Cnt Enemy UI
-                enemyAText.text = enemyCntA.ToString();
-                enemyBText.text = enemyCntB.ToString();
-                enemyCText.text = enemyCntC.ToString();
-
-                //Boss Health UI
-                if (boss != null)
-                {
-                    bossHealthGroup.anchoredPosition = Vector3.down * 30;
-                    bossHealthBar.localScale = new Vector3((float)boss.curHealth / boss.maxHealth, 1, 1);
-                }
-                else
-                {
-                    bossHealthGroup.anchoredPosition = Vector3.up * 200;
-                }
-                break;
-        }     
-        
+        clearShip.SetActive(true);
     }
-    //
     /*
+    //
     public int GetStarsForLevel(string levelId)
     {
         if (!levelList.ContainsKey(levelId))

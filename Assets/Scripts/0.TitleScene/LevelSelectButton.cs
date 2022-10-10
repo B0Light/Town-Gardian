@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,21 +9,22 @@ using UnityEngine.SceneManagement;
 public class LevelSelectButton : MonoBehaviour
 {
     protected Button m_Button;
-
     private Player player;
+    private UiManager _uiManager;
     public Text titleDisplay;
     public Text description;
     public Sprite starAchieved;
     public Image[] stars;
     protected MouseScroll m_MouseScroll;
     protected LevelItem m_Item;
-    
+
     public void ButtonClicked()
     {
         ChangeScenes();
     }
     protected void ChangeScenes()
     {
+        _uiManager = FindObjectOfType<UiManager>();
         if (m_Item.sceneName == "2.GameScene")
         {
             player = FindObjectOfType<Player>();

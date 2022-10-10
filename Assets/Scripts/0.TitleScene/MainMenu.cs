@@ -5,7 +5,7 @@ namespace Core.UI
 {
 	public abstract class MainMenu : MonoBehaviour
 	{
-		protected IMainMenuPage m_CurrentPage;
+		protected IMainMenuPage m_CurrentPage; 
 		protected Stack<IMainMenuPage> m_PageStack = new Stack<IMainMenuPage>();
 		
 		protected virtual void ChangePage(IMainMenuPage newPage)

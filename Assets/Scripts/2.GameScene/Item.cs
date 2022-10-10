@@ -7,7 +7,7 @@ public class Item : MonoBehaviour
 {
     public enum Type
     {
-        Ammo, Coin, Grenade, Heart, Weapon
+        Ammo, Coin, Grenade, Heart, Weapon, MaxHeart
     }
 
     public Type type;

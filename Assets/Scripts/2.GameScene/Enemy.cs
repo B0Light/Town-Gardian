@@ -16,8 +16,8 @@ public class Enemy : MonoBehaviour
     };
 
     public Type enemyType;
-    public int maxHealth;
-    public int curHealth;
+    public float maxHealth;
+    public float curHealth;
     public int score;
 
     public GameManager manager;
@@ -46,6 +46,12 @@ public class Enemy : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         if(enemyType != Type.D)
             Invoke("ChaseStart", 2);
+    }
+
+    public void Upgrade(int stage)
+    {
+        maxHealth = maxHealth + stage * 50;
+        curHealth = maxHealth;
     }
 
     void ChaseStart()
@@ -161,7 +167,13 @@ public class Enemy : MonoBehaviour
             Melee weapon = other.GetComponent<Melee>();
             curHealth -= weapon._dmg;
             StartCoroutine(OnDmg(reactVec, false));
-        }else if (other.tag == "Bullet")
+        }else if (other.tag == "SpellSword")
+        {
+            SpellSword weapon = other.GetComponent<SpellSword>();
+            curHealth -= weapon._dmg;
+            StartCoroutine(OnDmg(reactVec, false));
+        }
+        else if (other.tag == "Bullet")
         {
             Bullet bullet = other.GetComponent<Bullet>();
             curHealth -= bullet.dmg;
@@ -208,18 +220,22 @@ public class Enemy : MonoBehaviour
                 case Type.A:
                     manager.enemyCntA--;
                     deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                    player.coin += 100;
                     break;
                 case Type.B:
                     manager.enemyCntB--;
                     deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                    player.coin += 1000;
                     break;
                 case Type.C:
                     manager.enemyCntC--;
                     deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                    player.coin += 500;
                     break;
                 case Type.D:
                     manager.enemyCntD--;
                     deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                    player.coin += 5000;
                     break;
             }
             GameObject coin = Instantiate(rewards[deathCoin],transform.position, Quaternion.identity);

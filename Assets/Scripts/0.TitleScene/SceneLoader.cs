@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,20 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     public string sceneToLoadName = "LevelSelect";
 
+    private UiManager _uiManager;
+
     /// <summary>
     /// Loads the scene from <see cref="sceneToLoadName" />
     /// if a scene with that name exists
     /// </summary>
+    public void Start()
+    {
+        _uiManager = FindObjectOfType<UiManager>();
+    }
+
     public void LoadScene()
     {
+        _uiManager.levelPanel.SetActive(false);
         SceneManager.LoadScene(sceneToLoadName);
     }
 

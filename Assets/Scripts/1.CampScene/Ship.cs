@@ -10,13 +10,30 @@ using UnityEngine.SceneManagement;
 
 public class Ship: MainMenu
 {
-    public LevelSelectScreen levelSelectMenu;
+    //public LevelSelectScreen levelSelectMenu;
+    private UiManager _uiManager;
+
+    private void Awake()
+    {
+        _uiManager = FindObjectOfType<UiManager>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
-            Enter();
+        Scene scene = SceneManager.GetActiveScene();
+        if (other.tag == "Player")
+        {
+            //_uiManager.levelPanel.SetActive(true);
+            //Enter();
+            if (scene.buildIndex+1 == 2)
+            {
+                other.transform.position = new Vector3(0, 1, -16);
+            }
+            SceneManager.LoadScene(scene.buildIndex + 1);
+        }
+            
     }
+    /*
     private void OnTriggerExit(Collider other)
     {
         if(other.tag == "Player")
@@ -41,16 +58,5 @@ public class Ship: MainMenu
         Cursor.visible = false;
         DeactivateCurrentPage();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    */
 }
