@@ -329,7 +329,7 @@ public class Player : MonoBehaviour
         if (sDown2) weaponIndex = 1;
         if (sDown3) weaponIndex = 2;
         if (sDown4) weaponIndex = 3;
-        if ((sDown1 || sDown2 || sDown3|| sDown4) && !isDodge && !isJump && !isDead)
+        if ((sDown1 || sDown2 || sDown3|| sDown4) && !isRelaod && !isDodge && !isJump && !isDead)
         {
             if(equipWeapon != null)
                 equipWeapon.gameObject.SetActive(false);

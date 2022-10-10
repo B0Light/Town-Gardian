@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5175642820444609599}
   - component: {fileID: 5175642820444609598}
   m_Layer: 0
-  m_Name: Coin Ruby
+  m_Name: Coin Emerald
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  value: 10000
+  value: 5000
 --- !u!1 &5175642820573282091
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0.42735004, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.57264996, a: 1}
   m_Intensity: 7
   m_Range: 4
   m_SpotAngle: 30
@@ -1493,8 +1493,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0, b: 0.37523937, a: 1}
-        key1: {r: 0.8219872, g: 0.6179246, b: 1, a: 0}
+        key0: {r: 0, g: 1, b: 0.80517745, a: 1}
+        key1: {r: 0.61960787, g: 1, b: 0.7344998, a: 0}
         key2: {r: 1, g: 1, b: 1, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5061,7 +5061,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee71365894922884ca1e1c1bf882d54c, type: 2}
+  - {fileID: 2100000, guid: 27aecc067c3ed7a4782552b53328a720, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
