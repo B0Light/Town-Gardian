@@ -1,5 +1,4 @@
-# Town-Gardian
-Implement : PlayerMovement, Item_Setting
+
 게임 명 : Town Gardian (임시)
 개발 환경 : unity3d
 진행 상황 : https://github.com/SodaXI/Town-Gardian
