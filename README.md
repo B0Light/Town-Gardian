@@ -1,8 +1,12 @@
 
 게임 명 : Town Gardian (임시)
+
 개발 환경 : unity3d
+
 진행 상황 : https://github.com/SodaXI/Town-Gardian
+
 게임 장르 : 로그라이크 rpg -3d
+
 시점 : 3인칭
 
 싱글턴 패턴으로 구현 (player obj)
