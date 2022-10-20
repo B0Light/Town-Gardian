@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 //Cam    
     public GameObject menuCam;
     public GameObject gameCam;
+//Pos
+    public Transform startPos;
 //Obj    
     private Player player;
     private UiManager _uiManager;
@@ -70,7 +72,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        player.transform.position = startPos.position;
         _uiManager = FindObjectOfType<UiManager>();
+        
     }
 
     public void GameStart()
@@ -121,10 +125,10 @@ public class GameManager : MonoBehaviour
     {
         _uiManager.enemyGroup.SetActive(false);
         _uiManager.BossGroup.SetActive(false);
-        Vector3 playerSpawnPos = new Vector3(0, 0, -16);
-        player.transform.position = playerSpawnPos;
+        
+        player.transform.position = startPos.position;
         player.transform.rotation = Quaternion.Euler(0,0,0);
-        if (stage <= 10)
+        if (stage < 10)
         {
             itemShop.SetActive(true);
             weaponShop.SetActive(true);
@@ -132,6 +136,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            _uiManager.stageText.text = "CLEAR";
             ClearStage();
         }
        
@@ -158,7 +163,8 @@ public class GameManager : MonoBehaviour
             boss = instantEnemy.GetComponent<Boss>();
             enemy.manager = this;
         }
-        else
+
+        if (stage != 5)
             for (int i = 0; i < 2+stage; i++)
             {
                 int ran = Random.Range(0, 3);
@@ -176,6 +182,7 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
+        
         while (enemyList.Count > 0){
             int ranZone = Random.Range(0, 4);
             GameObject instantEnemy = Instantiate(enemies[enemyList[0]],

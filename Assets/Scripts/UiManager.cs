@@ -118,7 +118,8 @@ public class UiManager : MonoBehaviour
             case GameManager.SceneType.Game:
                 // UI 
                 scoText.text = string.Format("{0:n0}", _player.score);
-                stageText.text = "STAGE " + _gameManager.stage;
+                if(_gameManager.stage <= 10)
+                    stageText.text = "STAGE " + _gameManager.stage;
 
                 int hour = (int)(_gameManager.playTime / 3600);
                 int min = (int)((_gameManager.playTime - hour * 3600) / 60);

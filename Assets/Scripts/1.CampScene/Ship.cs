@@ -25,10 +25,6 @@ public class Ship: MainMenu
         {
             //_uiManager.levelPanel.SetActive(true);
             //Enter();
-            if (scene.buildIndex+1 == 2)
-            {
-                other.transform.position = new Vector3(0, 1, -16);
-            }
             SceneManager.LoadScene(scene.buildIndex + 1);
         }
             
