@@ -24,9 +24,13 @@ public class GameManager : MonoBehaviour
 //Cam    
     public GameObject menuCam;
     public GameObject gameCam;
+
 //Pos
     public Transform startPos;
-//Obj    
+    public Transform[] enemySpawn;
+    public Transform[] chestPos;
+
+    //Obj    
     private Player player;
     private UiManager _uiManager;
     public Boss boss;
@@ -35,12 +39,12 @@ public class GameManager : MonoBehaviour
     public GameObject itemShop;
     public GameObject weaponShop;
     public GameObject startZone;
-
-    public Transform[] enemySpawn;
-
     public GameObject[] enemies;
+    public GameObject[] rewardchests;
+    public GameObject[] stageWall;
 
     public List<int> enemyList;
+
 //InGame    
     public int stage;
     public float playTime;
@@ -49,10 +53,13 @@ public class GameManager : MonoBehaviour
     public int enemyCntB;
     public int enemyCntC;
     public int enemyCntD;
+
 //GameData    
-    
     private GameDataStore m_DataStore;
     public static GameManager instance;
+
+    private int curScore;
+    private int rewardValue;
     private void Awake()
     {
         instance = this;
@@ -117,7 +124,8 @@ public class GameManager : MonoBehaviour
 
         foreach (Transform zone in enemySpawn)
             zone.gameObject.SetActive(true);
-        
+
+        curScore = player.score;
         isBattle = true;
         StartCoroutine(InBattle());
     }
@@ -133,13 +141,25 @@ public class GameManager : MonoBehaviour
             itemShop.SetActive(true);
             weaponShop.SetActive(true);
             startZone.SetActive(true);
+            if(stage <= stageWall.Length)
+            {
+                stageWall[stage-1].SetActive(false);
+            }
         }
         else
         {
             _uiManager.stageText.text = "CLEAR";
             ClearStage();
         }
-       
+
+        rewardValue = (player.score - curScore) / 2000;
+        rewardValue = rewardValue >= 5 ? 4 : rewardValue;
+        for(int i = 0; i < 3; i++)
+        { 
+            GameObject instantChest = Instantiate(rewardchests[rewardValue],
+                                chestPos[i].position, chestPos[i].rotation);
+        }
+   
         
         foreach (Transform zone in enemySpawn)
             zone.gameObject.SetActive(false);
@@ -156,7 +176,7 @@ public class GameManager : MonoBehaviour
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
-                enemySpawn[2].position, enemySpawn[2].rotation);
+                enemySpawn[0].position, enemySpawn[0].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();
             enemy.Upgrade(stage);
             enemy.target = player.transform;
@@ -184,7 +204,7 @@ public class GameManager : MonoBehaviour
             }
         
         while (enemyList.Count > 0){
-            int ranZone = Random.Range(0, 4);
+            int ranZone = Random.Range(0, enemySpawn.Length) % stage;
             GameObject instantEnemy = Instantiate(enemies[enemyList[0]],
                 enemySpawn[ranZone].position, enemySpawn[ranZone].rotation);
             Enemy enemy = instantEnemy.GetComponent<Enemy>();

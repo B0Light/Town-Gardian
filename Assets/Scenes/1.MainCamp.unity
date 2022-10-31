@@ -783,7 +783,7 @@ Transform:
   m_GameObject: {fileID: 44979876}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -33.48, y: -2.9982, z: -4.03}
-  m_LocalScale: {x: 7.2116556, y: 5.872477, z: 3.485372}
+  m_LocalScale: {x: 7.2116556, y: 5.5597086, z: 3.485372}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 669752509}
@@ -11088,7 +11088,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532206126}
-  m_LocalRotation: {x: -0.014305798, y: 0.98310745, z: -0.15985884, w: -0.08797847}
+  m_LocalRotation: {x: -0.0143058, y: 0.98310745, z: -0.15985882, w: -0.08797849}
   m_LocalPosition: {x: -14.079533, y: 3, z: -39.127117}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11225,7 +11225,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533069021}
-  m_LocalRotation: {x: 0.0025886279, y: 0.93514246, z: -0.3428759, w: -0.0890964}
+  m_LocalRotation: {x: 0.002588627, y: 0.93514246, z: -0.3428759, w: -0.089096405}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -14602,7 +14602,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746284651}
-  m_LocalRotation: {x: 0.0009675799, y: 0.92875093, z: -0.35982895, w: -0.08912874}
+  m_LocalRotation: {x: 0.00096758176, y: 0.92875093, z: -0.35982895, w: -0.089128755}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -32793,7 +32793,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039236252}
-  m_LocalRotation: {x: 0.0042045424, y: 0.9412088, z: -0.32585466, w: -0.08903476}
+  m_LocalRotation: {x: 0.0042045387, y: 0.9412088, z: -0.32585466, w: -0.08903477}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 489518}
   - component: {fileID: 13747860}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,9 +97,9 @@ GameObject:
   m_Component:
   - component: {fileID: 448142}
   - component: {fileID: 9594588}
-  m_Layer: 0
-  m_Name: Death_Chest
-  m_TagString: Untagged
+  m_Layer: 7
+  m_Name: eBoss_Chest
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,7 +151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 410358}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   m_Component:
   - component: {fileID: 422964}
   - component: {fileID: 13763258}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mesh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446218}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
