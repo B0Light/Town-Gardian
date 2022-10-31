@@ -432,6 +432,8 @@ public class Player : MonoBehaviour
                         hasGrendes = maxHasGrendes;
                     grenades[hasGrendes-1].SetActive(true);
                     break;
+                case Item.Type.JumpPack:
+                    break;
             }
             Destroy(other.gameObject);
         }

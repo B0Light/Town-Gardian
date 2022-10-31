@@ -23,7 +23,7 @@ public class Grenade : MonoBehaviour
         effectObj.SetActive(true);
 
         RaycastHit[] raycastHits = Physics.SphereCastAll(transform.position,
-            15, Vector3.up, 0f, LayerMask.GetMask("Enemy"));
+            20, Vector3.up, 0f, LayerMask.GetMask("Enemy"));
         foreach (RaycastHit hitObj in raycastHits)
         {
             hitObj.transform.GetComponent<Enemy>().HitByGrenade(transform.position);

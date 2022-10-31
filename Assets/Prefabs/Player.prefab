@@ -31446,7 +31446,7 @@ MonoBehaviour:
   maxStamina: 100
   maxHasGrendes: 4
   ammo: 99
-  coin: 10000
+  coin: 1000000
   health: 100
   stamina: 100
   hasGrendes: 0

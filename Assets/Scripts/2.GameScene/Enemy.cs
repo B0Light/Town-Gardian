@@ -240,8 +240,8 @@ public class Enemy : MonoBehaviour
             }
             GameObject coin = Instantiate(rewards[deathCoin],transform.position, Quaternion.identity);
             Rigidbody rcoin = coin.GetComponent<Rigidbody>();
-            rcoin.AddForce(Vector3.up * 10, ForceMode.Impulse);
-            rcoin.AddTorque(Vector3.forward * 20, ForceMode.Impulse);
+            rcoin.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            //rcoin.AddTorque(Vector3.forward * 20, ForceMode.Impulse);
             
             if(isGrenade)
             { 

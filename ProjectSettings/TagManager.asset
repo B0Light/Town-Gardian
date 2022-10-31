@@ -15,6 +15,7 @@ TagManager:
   - Shop
   - Ship
   - SpellSword
+  - Chest
   layers:
   - Default
   - TransparentFX

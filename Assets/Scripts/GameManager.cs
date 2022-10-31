@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 //Pos
     public Transform startPos;
     public Transform[] enemySpawn;
-    public Transform[] chestPos;
+    public Transform chestPos;
 
     //Obj    
     private Player player;
@@ -135,7 +135,8 @@ public class GameManager : MonoBehaviour
         _uiManager.BossGroup.SetActive(false);
         
         player.transform.position = startPos.position;
-        player.transform.rotation = Quaternion.Euler(0,0,0);
+        player.transform.LookAt(Vector3.zero);
+        //player.transform.rotation = startPos.rotation;
         if (stage < 10)
         {
             itemShop.SetActive(true);
@@ -154,11 +155,10 @@ public class GameManager : MonoBehaviour
 
         rewardValue = (player.score - curScore) / 2000;
         rewardValue = rewardValue >= 5 ? 4 : rewardValue;
-        for(int i = 0; i < 3; i++)
-        { 
-            GameObject instantChest = Instantiate(rewardchests[rewardValue],
-                                chestPos[i].position, chestPos[i].rotation);
-        }
+         
+        GameObject instantChest = Instantiate(rewardchests[rewardValue],
+                            chestPos.position, chestPos.rotation);
+        
    
         
         foreach (Transform zone in enemySpawn)
