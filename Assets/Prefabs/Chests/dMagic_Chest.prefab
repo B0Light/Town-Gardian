@@ -201,7 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471e4cf6f58304fa7ae24a077ffa6d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reward: []
+  reward:
+  - {fileID: 2027298533013675408, guid: 80ee4cf2b822a6140b63134817a299eb, type: 3}
+  - {fileID: 2027298533013675408, guid: 4df190eec45d26d41bf3b7fe813cb1d3, type: 3}
+  - {fileID: 3020725798605949018, guid: f7ab6074f9d7b15468af932a43cf0c3c, type: 3}
+  - {fileID: 9172285779936705547, guid: 872e35eb2a54c464488c2021e59cbbe6, type: 3}
 --- !u!1 &160942
 GameObject:
   m_ObjectHideFlags: 0
