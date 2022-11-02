@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
             ClearStage();
         }
 
-        rewardValue = (player.score - curScore) / 2000;
+        rewardValue = (player.score - curScore) / 1500;
         rewardValue = rewardValue >= 5 ? 4 : rewardValue;
          
         GameObject instantChest = Instantiate(rewardchests[rewardValue],
