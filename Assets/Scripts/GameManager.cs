@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
                 stageWall[stage-1].SetActive(false);
             }
         }
-        else
+        else if(stage == 10)
         {
             _uiManager.stageText.text = "CLEAR";
             ClearStage();

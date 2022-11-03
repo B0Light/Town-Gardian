@@ -472,9 +472,17 @@ public class Player : MonoBehaviour
         
         if(isBossAtk)
             rbody.velocity = Vector3.zero;
+    }
+    public void HitByGrenade(Vector3 explosionPos)
+    {
+        health -= 10;
+        OnDmg(false);
+        Vector3 reactVec = transform.position - explosionPos;
+        reactVec += Vector3.up * 3;
+        rbody.freezeRotation = false;
+        rbody.AddTorque(reactVec * 15, ForceMode.Impulse);
         
     }
-
     void OnDie()
     {
         anim.SetTrigger("doDie");

@@ -155,9 +155,14 @@ public class Enemy : MonoBehaviour
                 break;
             case Type.C2:
                 yield return new WaitForSeconds(0.5f);
-                GameObject instantBullet2 = Instantiate(bullet, transform.position, transform.rotation);
-                Rigidbody rbodyBullet2 = instantBullet2.GetComponent<Rigidbody>();
-                rbodyBullet2.velocity = transform.forward * 30;
+                Vector3 GrenadePos = Vector3.zero;
+                GrenadePos.y = 15;
+                GameObject instantGrenade = Instantiate(bullet, transform.position, transform.rotation);
+                Rigidbody rbodyGrenade = instantGrenade.GetComponent<Rigidbody>();
+                rbodyGrenade.velocity = transform.forward * 20;
+                
+                rbodyGrenade.AddForce(GrenadePos, ForceMode.Impulse);
+                rbodyGrenade.AddTorque(Vector3.back * 15, ForceMode.Impulse);
 
                 yield return new WaitForSeconds(2f);
                 break;
