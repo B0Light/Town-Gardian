@@ -39,7 +39,8 @@ public class Player : MonoBehaviour
 
     public float speed;
     public GameObject[] weapons;
-    public GameObject[] grenades ;
+    public int[] weaponsLv;
+    public GameObject[] grenades;
     public bool[] hasWeapons;
     public GameObject grenadeObj;
     public Vector3 moveVec;
@@ -369,16 +370,17 @@ public class Player : MonoBehaviour
                     // upGrade item;
                     if (weaponIndex == 0)
                     {
-                         weapons[weaponIndex].GetComponent<Melee>().UpGrade();
-                    }else if (weaponIndex == 3)
+                        weapons[weaponIndex].GetComponent<Melee>().UpGrade();
+                    }
+                    else if (weaponIndex == 3)
                     {
                         weapons[weaponIndex].GetComponent<SpellSword>().UpGrade();
                     }
                     else
                     {
-                         weapons[weaponIndex].GetComponent<Range>().UpGrade();
+                         weapons[weaponIndex].GetComponent<Range>().UpGrade(); 
                     }
-                       
+                    weaponsLv[weaponIndex]++;
                 }
                 Destroy(nearObject);
             }

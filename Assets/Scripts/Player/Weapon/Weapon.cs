@@ -9,7 +9,8 @@ abstract public class Weapon : MonoBehaviour
     public Type type;
 
     public float rate;
-    protected int level = 1;
+
+    public int level = 1;
 
     abstract public void Use();
 

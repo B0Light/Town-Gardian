@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
         A,
         B,
         C,
+        C2,
         D
     };
 
@@ -103,6 +104,10 @@ public class Enemy : MonoBehaviour
                     targetRadius = 0.5f;
                     targetRange = 25f;
                     break;
+                case Type.C2:
+                    targetRadius = 1f;
+                    targetRange = 100f;
+                    break;
             }
             RaycastHit[] rayHits = Physics.SphereCastAll(transform.position,
                 targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
@@ -144,8 +149,16 @@ public class Enemy : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 GameObject instantBullet = Instantiate(bullet, transform.position, transform.rotation);
                 Rigidbody rbodyBullet = instantBullet.GetComponent<Rigidbody>();
-                rbodyBullet.velocity = transform.forward * 20;
+                rbodyBullet.velocity = transform.forward * UnityEngine.Random.Range(20,20+manager.stage*3);
                 
+                yield return new WaitForSeconds(2f);
+                break;
+            case Type.C2:
+                yield return new WaitForSeconds(0.5f);
+                GameObject instantBullet2 = Instantiate(bullet, transform.position, transform.rotation);
+                Rigidbody rbodyBullet2 = instantBullet2.GetComponent<Rigidbody>();
+                rbodyBullet2.velocity = transform.forward * 30;
+
                 yield return new WaitForSeconds(2f);
                 break;
         }
