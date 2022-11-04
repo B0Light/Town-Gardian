@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
-public class CarSpowner : MonoBehaviour
+public class CarSpawner : MonoBehaviour
 {
     public GameObject car;
     public Transform[] carPos;
     public GameManager manager;
-    void Start()
-    {
-        
-    }
+    bool isSpawn;
     
     void Update()
     {
-        StartCoroutine(lanch());
+        carSpawn();
+    }
+
+    void carSpawn()
+    {
+        if (isSpawn == false)
+        {
+            isSpawn = true;
+            StartCoroutine(lanch());
+        }
     }
 
     IEnumerator lanch()
@@ -24,8 +30,8 @@ public class CarSpowner : MonoBehaviour
         int carPosition = UnityEngine.Random.Range(0, carPos.Length);
         GameObject instantCar = Instantiate(car, carPos[carPosition].position, carPos[carPosition].rotation);
         Rigidbody rbodyBullet = instantCar.GetComponent<Rigidbody>();
-        rbodyBullet.velocity = transform.forward * UnityEngine.Random.Range(10,20+manager.stage*3);
-                
-        yield return new WaitForSeconds(25f);
+        rbodyBullet.AddForce(instantCar.transform.forward* UnityEngine.Random.Range(10, 20), ForceMode.Impulse);
+        yield return new WaitForSeconds(5f);
+        isSpawn = false;
     }
 }

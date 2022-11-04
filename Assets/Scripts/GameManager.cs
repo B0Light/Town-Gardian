@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
         Login, 
         Lobby, 
         Camp,
-        Game, 
+        Game,
+        Test,
         Shop
     }
 
@@ -31,8 +32,8 @@ public class GameManager : MonoBehaviour
     public Transform chestPos;
 
     //Obj    
-    private Player player;
-    private UiManager _uiManager;
+    protected Player player;
+    protected UiManager _uiManager;
     public Boss boss;
     
     public GameObject clearShip;
@@ -55,16 +56,17 @@ public class GameManager : MonoBehaviour
     public int enemyCntD;
 
 //GameData    
-    private GameDataStore m_DataStore;
+    protected GameDataStore m_DataStore;
     public static GameManager instance;
 
-    private int curScore;
-    private int rewardValue;
-    private void Awake()
+    protected int curScore;
+    protected int rewardValue;
+    protected void Awake()
     {
         instance = this;
         if (SceneManager.GetActiveScene().name == "MainCamp") SType = SceneType.Camp;
         if (SceneManager.GetActiveScene().name == "GameScene") SType = SceneType.Game;
+        if (SceneManager.GetActiveScene().name == "TestScene") SType = SceneType.Test;
         /*
         switch (SType)
         {
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
         */
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         player = FindObjectOfType<Player>();
         player.transform.position = startPos.position;
@@ -114,7 +116,7 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         Destroy(player.gameObject);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
     public void StageStart()
     {
@@ -129,14 +131,14 @@ public class GameManager : MonoBehaviour
         isBattle = true;
         StartCoroutine(InBattle());
     }
-    public void StageEnd()
+    public virtual void StageEnd()
     {
         _uiManager.enemyGroup.SetActive(false);
         _uiManager.BossGroup.SetActive(false);
         
         player.transform.position = startPos.position;
         player.transform.LookAt(Vector3.zero);
-        //player.transform.rotation = startPos.rotation;
+        player.transform.rotation = startPos.rotation;
         if (stage < 10)
         {
             itemShop.SetActive(true);
@@ -229,7 +231,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (isBattle) playTime += Time.deltaTime;
     }
@@ -239,7 +241,6 @@ public class GameManager : MonoBehaviour
         clearShip.SetActive(true);
     }
     /*
-    //
     public int GetStarsForLevel(string levelId)
     {
         if (!levelList.ContainsKey(levelId))

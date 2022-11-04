@@ -19277,10 +19277,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8366461305944251891, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
-      propertyPath: m_Text
-      value: 3000G
-      objectReference: {fileID: 0}
     - target: {fileID: 9173463342803426932, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -19328,10 +19324,6 @@ PrefabInstance:
     - target: {fileID: 9173463342803426939, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
       propertyPath: m_Name
       value: Shop-Weapon Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 9173463344288471317, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c98afb9db44101e4ba118f0d47727006, type: 3}
@@ -33142,7 +33134,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039236252}
-  m_LocalRotation: {x: 0.0042045414, y: 0.9412088, z: -0.32585463, w: -0.08903475}
+  m_LocalRotation: {x: 0.0042045377, y: 0.9412088, z: -0.32585466, w: -0.08903478}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

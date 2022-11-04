@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     public float health;
     public float stamina;
     public int hasGrendes = 0;
+    public float jumpPower = 10;
 
     public float speed;
     public GameObject[] weapons;
@@ -186,6 +187,7 @@ public class Player : MonoBehaviour
 
         if (!isBorder)
             transform.position += moveVec * speed * (wDown && stamina>0 ? 2f : 1f) * Time.deltaTime;
+
         if (wDown && !isBorder && stamina >= 0) stamina -= 30 * Time.deltaTime;
         if (!wDown && stamina < maxStamina) stamina += 10 * Time.deltaTime;    
         
@@ -230,7 +232,7 @@ public class Player : MonoBehaviour
     {
         if (jDown && !isJump && !isDodge && !isSwap  &&!isShop && !isDead)
         {
-            rbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            rbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             anim.SetBool("isJump", true); 
             anim.SetTrigger("doJump");
             isJump = true;
@@ -280,7 +282,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("doReload");
             isRelaod = true;
             speed *= 0.2f;
-            Invoke("ReloadOut", 3f);
+            Invoke("ReloadOut", 1.5f);
         }
     }
 
@@ -293,9 +295,9 @@ public class Player : MonoBehaviour
         int leftBullet = range._curAmmo;
         int reAmmo = ammo < range._maxAmo ? ammo : range._maxAmo;
         range._curAmmo = reAmmo;
-        ammo -= reAmmo;             // 30발 장전할 수 있는데 2발 남기고 재장전 하면 28개가 소모되는게 아닌 30개가 소모되면 문제가 생기지 않을까 합니다.
-        ammo += leftBullet;         // Range 클래스에 Reload 함수를 만들고 그 반환값을 소모한 개수(28개)로 삼고 그 개수만큼 빼주면 문제가 해결될 듯 합니다.
-                                    // 다른 방법으로 해결하였습니다!! 잔여 총알 개수를 먼저 가저온 후 재장전 후 보유 총알에 잔여총알을 더하였습니다.
+        ammo -= reAmmo;             
+        ammo += leftBullet;         
+                                
         speed *= 5f;
         isRelaod = false;
     }
@@ -303,7 +305,7 @@ public class Player : MonoBehaviour
     {
         if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead && stamina >= 5)
         {
-            stamina -= 30;
+            stamina -= 35;
             dodgeVec = inputVec;
             speed *= 2;
             anim.SetTrigger("doDodge");
@@ -396,8 +398,13 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Wall")
         {
-            anim.SetBool("isJump",false);
-            isJump = false;
+            if(isJump == true)
+            {
+                anim.SetBool("isJump",false);
+                isJump = false;
+                jumpPower = 10;
+            }
+            
         }
     }
 
@@ -445,7 +452,7 @@ public class Player : MonoBehaviour
                 Bullet enemyBullet = other.GetComponent<Bullet>();
                 health -= enemyBullet.dmg;
 
-                bool isBossAtk = other.name == "Boss Melee Area";
+                bool isBossAtk = (other.name == "Boss Melee Area");
                 StartCoroutine(OnDmg(isBossAtk));
             }
             if(other.GetComponent<Rigidbody>() != null) Destroy(other.gameObject);
@@ -481,7 +488,7 @@ public class Player : MonoBehaviour
         reactVec += Vector3.up * 3;
         rbody.freezeRotation = false;
         rbody.AddTorque(reactVec * 15, ForceMode.Impulse);
-        
+        rbody.AddForce(transform.forward * -20, ForceMode.Impulse);
     }
     void OnDie()
     {

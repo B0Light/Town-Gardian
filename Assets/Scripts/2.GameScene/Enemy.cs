@@ -123,7 +123,8 @@ public class Enemy : MonoBehaviour
     {
         isChase = false;
         isAtk = true;
-        anim.SetBool("isAtk",true);
+        if(enemyType != Type.D)
+            anim.SetBool("isAtk",true);
 
         switch (enemyType)
         {
@@ -212,7 +213,7 @@ public class Enemy : MonoBehaviour
     {
         foreach (MeshRenderer mesh in meshs)
             mesh.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
         if(curHealth > 0)

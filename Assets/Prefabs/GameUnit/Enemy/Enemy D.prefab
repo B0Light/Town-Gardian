@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedd6d7aa99e0b24fa4e592550f58f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 3
+  enemyType: 4
   maxHealth: 2000
   curHealth: 2000
   score: 5000

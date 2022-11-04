@@ -18720,6 +18720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rate: 1
+  level: 1
   _dmg: 25
   _meleeArea: {fileID: 653314510450325761}
   _trailEffect: {fileID: 4942837591636426471}
@@ -18974,6 +18975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   rate: 0.4
+  level: 1
   _maxAmo: 12
   _curAmmo: 12
   _bullet: {fileID: 5069636462576391884, guid: a126a65317d3e4a4eb4140c485ff4668, type: 3}
@@ -31450,17 +31452,19 @@ MonoBehaviour:
   health: 100
   stamina: 100
   hasGrendes: 0
+  jumpPower: 10
   speed: 10
   weapons:
   - {fileID: 2056662708483800282}
   - {fileID: 2951366326474930865}
   - {fileID: 8866485881625948978}
   - {fileID: 3235328946962407262}
+  weaponsLv: 
   grenades:
   - {fileID: 3406309160524054239}
-  - {fileID: 3394343114984333397}
-  - {fileID: 1292882180532645143}
   - {fileID: 2540693117741615385}
+  - {fileID: 1292882180532645143}
+  - {fileID: 3394343114984333397}
   hasWeapons: 01000000
   grenadeObj: {fileID: 6789510366546553925, guid: 2f0eeb30bce25f341b7fcbab5f9e875e, type: 3}
   moveVec: {x: 0, y: 0, z: 0}
@@ -31866,6 +31870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   rate: 0.1
+  level: 1
   _maxAmo: 50
   _curAmmo: 50
   _bullet: {fileID: 717470493216698666, guid: 08dcc4fe2282e784e83b981c2c3a72eb, type: 3}
@@ -32093,6 +32098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rate: 1
+  level: 1
   spell: {fileID: 854043007467263008, guid: 39d9d59510a15ee49b53db28f10a1ad4, type: 3}
   spellPos:
   - {fileID: 2695425985429164210}

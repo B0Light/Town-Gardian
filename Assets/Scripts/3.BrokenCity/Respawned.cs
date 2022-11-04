@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Respond : MonoBehaviour
+public class Respawned : MonoBehaviour
 {
+    public Transform startPos;
    private void OnTriggerEnter(Collider other)
    {
       if (other.tag == "Player")
-         other.transform.position = new Vector3(0, 0, -16);
+        {
+            other.transform.position = startPos.position;
+        }
+         
+         
    }
 }

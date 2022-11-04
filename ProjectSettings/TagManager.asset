@@ -16,6 +16,7 @@ TagManager:
   - Ship
   - SpellSword
   - Chest
+  - Enemyboom
   layers:
   - Default
   - TransparentFX

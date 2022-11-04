@@ -21,7 +21,7 @@ public class Chest : MonoBehaviour
       if (other.tag == "Player")
       {
          anim.SetTrigger("Open");
-
+         //rewardValue = UnityEngine.Random.Range(0, reward.Length);
         
          StartCoroutine(ChestOpen());
          return;
@@ -32,8 +32,7 @@ public class Chest : MonoBehaviour
    {
       yield return new WaitForSeconds(2f);
       
-      rewardValue = UnityEngine.Random.Range(0, reward.Length);
-      GameObject ireward = Instantiate(reward[rewardValue], transform.position, Quaternion.identity);
+      GameObject ireward = Instantiate(reward[UnityEngine.Random.Range(0, reward.Length)], transform.position, Quaternion.identity);
       Rigidbody rewardRigid = ireward.GetComponent<Rigidbody>();
       rewardRigid.AddForce(Vector3.up+Vector3.forward*-1,ForceMode.Impulse);
       Destroy(gameObject);

@@ -382,7 +382,7 @@ MonoBehaviour:
   enemyType: 3
   maxHealth: 200
   curHealth: 200
-  score: 500
+  score: 1000
   manager: {fileID: 0}
   target: {fileID: 0}
   meleeArea: {fileID: 0}
