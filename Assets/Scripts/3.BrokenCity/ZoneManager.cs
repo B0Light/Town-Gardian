@@ -16,6 +16,7 @@ public class ZoneManager : GameManager
         {
             isClear[i] = false;
         }
+        bossStage = 4;
     }
 
     public void EnterZone(int index)

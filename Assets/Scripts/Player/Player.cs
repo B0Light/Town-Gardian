@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     public GameObject[] grenades;
     public bool[] hasWeapons;
     public GameObject grenadeObj;
+    public GameObject hammerOrbit;
+    public GameObject drone;
     public Vector3 moveVec;
     private Vector3 dodgeVec;
     private bool wDown; 
@@ -144,6 +146,19 @@ public class Player : MonoBehaviour
         Dodge();
         Swap();
         Interaction();
+        if (weaponsLv[0] >= 10)
+        {
+            hammerOrbit.SetActive(true);
+        }
+        if (weaponsLv[1] >= 10)
+        {
+            drone.SetActive(true);
+        }
+        if(health <= 0 && !isDead)
+        {
+            isDead = true;
+            OnDie();
+        }
     }
 
     void GetInput()
@@ -488,7 +503,7 @@ public class Player : MonoBehaviour
         reactVec += Vector3.up * 3;
         rbody.freezeRotation = false;
         rbody.AddTorque(reactVec * 15, ForceMode.Impulse);
-        rbody.AddForce(transform.forward * -20, ForceMode.Impulse);
+        rbody.AddForce(transform.forward * -1, ForceMode.Impulse);
     }
     void OnDie()
     {

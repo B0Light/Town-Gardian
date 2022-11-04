@@ -155,6 +155,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4104035489464760637, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4104035489464760638, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: anim
       value: 
@@ -249,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4104035490294447708, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Name
-      value: Shop-Weapon
+      value: Shop-Weapon Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4385753012023107923, guid: 221c4ba86b3f9c147bddd0e9a9152d37, type: 3}
       propertyPath: m_Sprite

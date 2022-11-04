@@ -46,6 +46,11 @@ public class Boss : Enemy
 
     IEnumerator Think()
     {
+        if (isDead)
+        {
+            StopAllCoroutines();
+            yield return null;
+        }
         yield return new WaitForSeconds(0.1f);
         int ranAction = Random.Range(0, 5);
         switch (ranAction)

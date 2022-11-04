@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent nav;
     protected Animator anim;
     protected int deathCoin;
-
+    protected int takenDmg;
     private void Awake()
     {
         rbody = GetComponent<Rigidbody>();
@@ -181,22 +181,24 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Vector3 reactVec = transform.position - other.transform.position;
+        if (isDead) return;
         if (other.tag == "Melee")
         {
             Melee weapon = other.GetComponent<Melee>();
-            curHealth -= weapon._dmg;
+            takenDmg = weapon._dmg;
             StartCoroutine(OnDmg(reactVec, false));
         }else if (other.tag == "SpellSword")
         {
             SpellSword weapon = other.GetComponent<SpellSword>();
-            curHealth -= weapon._dmg;
+            takenDmg = weapon._dmg;
             StartCoroutine(OnDmg(reactVec, false));
         }
         else if (other.tag == "Bullet")
         {
             Bullet bullet = other.GetComponent<Bullet>();
-            curHealth -= bullet.dmg;
-            Destroy(other.gameObject); // 총알 관통 불가
+            takenDmg = bullet.dmg;
+            if(bullet.isMelee == false)
+                Destroy(other.gameObject); // 총알 관통 불가
             StartCoroutine(OnDmg(reactVec, false));
         }
         
@@ -204,6 +206,7 @@ public class Enemy : MonoBehaviour
 
     public void HitByGrenade(Vector3 explosionPos)
     {
+        if (isDead) return;
         curHealth -= 100;
         Vector3 reactVec = transform.position - explosionPos;
         StartCoroutine(OnDmg(reactVec, true));
@@ -213,7 +216,8 @@ public class Enemy : MonoBehaviour
     {
         foreach (MeshRenderer mesh in meshs)
             mesh.material.color = Color.red;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(0.2f);
+        curHealth -= takenDmg;
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
         if(curHealth > 0)
@@ -227,39 +231,48 @@ public class Enemy : MonoBehaviour
                 mesh.material.color = Color.gray;
             gameObject.layer = 14;
             anim.SetTrigger("doDie");
-            isDead = true;
+            
             isChase = false;
             nav.enabled = false;
             
             Player player = target.GetComponent<Player>();
             player.score += score;
-            
-            switch (enemyType)
+            if (!isDead)
             {
-                case Type.A:
-                    manager.enemyCntA--;
-                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                    player.coin += 100;
-                    break;
-                case Type.B:
-                    manager.enemyCntB--;
-                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                    player.coin += 1000;
-                    break;
-                case Type.C:
-                    manager.enemyCntC--;
-                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                    player.coin += 500;
-                    break;
-                case Type.D:
-                    manager.enemyCntD--;
-                    deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                    player.coin += 5000;
-                    break;
+            switch (enemyType)
+                {
+                    case Type.A:
+                        manager.enemyCntA--;
+                        deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                        player.coin += 100;
+                        break;
+                    case Type.B:
+                        manager.enemyCntB--;
+                        deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                        player.coin += 1000;
+                        break;
+                    case Type.C:
+                        manager.enemyCntC--;
+                        deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                        player.coin += 500;
+                        break;
+                    case Type.C2:
+                        manager.enemyCntA--;
+                        deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                        player.coin += 800;
+                        break;
+                    case Type.D:
+                        manager.enemyCntD--;
+                        deathCoin = UnityEngine.Random.Range(0, rewards.Length);
+                        player.coin += 5000;
+                        break;
+                }
+                GameObject coin = Instantiate(rewards[deathCoin], transform.position, Quaternion.identity);
+                Rigidbody rcoin = coin.GetComponent<Rigidbody>();
+                rcoin.AddForce(Vector3.up * 5, ForceMode.Impulse);
             }
-            GameObject coin = Instantiate(rewards[deathCoin],transform.position, Quaternion.identity);
-            Rigidbody rcoin = coin.GetComponent<Rigidbody>();
-            rcoin.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            isDead = true;
+            
             //rcoin.AddTorque(Vector3.forward * 20, ForceMode.Impulse);
             
             if(isGrenade)
@@ -271,6 +284,7 @@ public class Enemy : MonoBehaviour
             
             rbody.AddForce(reactVec * 5, ForceMode.Impulse);
             Destroy(gameObject, 4f);
+            this.enabled = false;
             
         }
         

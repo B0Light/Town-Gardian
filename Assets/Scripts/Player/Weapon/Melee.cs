@@ -22,11 +22,11 @@ public class Melee : Weapon {
     }
 
     IEnumerator Swing() {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         _meleeArea.enabled = true;
         _trailEffect.enabled = true;
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         _meleeArea.enabled = false;
 
         yield return new WaitForSeconds(0.1f);

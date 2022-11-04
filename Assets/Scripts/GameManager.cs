@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     protected int curScore;
     protected int rewardValue;
+    protected int bossStage;
     protected void Awake()
     {
         instance = this;
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         player.transform.position = startPos.position;
         _uiManager = FindObjectOfType<UiManager>();
+        bossStage = 5;
         
     }
 
@@ -120,6 +122,7 @@ public class GameManager : MonoBehaviour
     }
     public void StageStart()
     {
+        enemyCntA = enemyCntB = enemyCntC = enemyCntD = 0;
         itemShop.SetActive(false);
         weaponShop.SetActive(false);
         startZone.SetActive(false);
@@ -133,12 +136,11 @@ public class GameManager : MonoBehaviour
     }
     public virtual void StageEnd()
     {
+        player.transform.position = startPos.position;
         _uiManager.enemyGroup.SetActive(false);
         _uiManager.BossGroup.SetActive(false);
+       
         
-        player.transform.position = startPos.position;
-        player.transform.LookAt(Vector3.zero);
-        player.transform.rotation = startPos.rotation;
         if (stage < 10)
         {
             itemShop.SetActive(true);
@@ -174,7 +176,7 @@ public class GameManager : MonoBehaviour
     {
         _uiManager.enemyGroup.SetActive(true);
         _uiManager.BossGroup.SetActive(true);
-        if (stage % 5 == 0)
+        if (stage % bossStage == 0)
         {
             enemyCntD++;
             GameObject instantEnemy = Instantiate(enemies[3],
@@ -186,7 +188,7 @@ public class GameManager : MonoBehaviour
             enemy.manager = this;
         }
 
-        if (stage != 5)
+        if (stage != bossStage)
             for (int i = 0; i < 2+stage; i++)
             {
                 int ran = Random.Range(0, 3);
@@ -223,7 +225,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        if (enemyCntA + enemyCntB + enemyCntC + enemyCntD == 0)
+        if (enemyCntA + enemyCntB + enemyCntC + enemyCntD <= 0)
         {
             yield return new WaitForSeconds(2f);
             boss = null;

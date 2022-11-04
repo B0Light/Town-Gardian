@@ -734,6 +734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Coin Ruby
       objectReference: {fileID: 0}
+    - target: {fileID: 5175642820573282085, guid: 53bb4b673235d554fb3395ac71153bb1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5430878341356958463, guid: 53bb4b673235d554fb3395ac71153bb1, type: 3}
       propertyPath: m_RootOrder
       value: 7
