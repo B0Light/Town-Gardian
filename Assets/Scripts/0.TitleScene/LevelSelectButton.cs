@@ -25,11 +25,13 @@ public class LevelSelectButton : MonoBehaviour
     protected void ChangeScenes()
     {
         _uiManager = FindObjectOfType<UiManager>();
+        /*
         if (m_Item.sceneName == "2.GameScene")
         {
             player = FindObjectOfType<Player>();
-            player.transform.position = new Vector3(0, 1, -16);
+            player.transform.position
         }
+        */
         SceneManager.LoadScene(m_Item.sceneName);
     }
     

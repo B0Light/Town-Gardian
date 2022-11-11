@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 2599148611706259761}
   - component: {fileID: 1612358145701236784}
   - component: {fileID: 7576111565811918656}
-  - component: {fileID: 6159949647789713502}
+  - component: {fileID: 5650503284672800613}
   m_Layer: 13
   m_Name: Enemy D2
   m_TagString: Enemy
@@ -320,7 +320,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6159949647789713502
+--- !u!114 &5650503284672800613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,22 +332,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedd6d7aa99e0b24fa4e592550f58f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 4
-  maxHealth: 2000
-  curHealth: 2000
-  score: 5000
+  enemyType: 5
+  maxHealth: 3000
+  curHealth: 3000
+  score: 7000
   manager: {fileID: 0}
   target: {fileID: 0}
   meleeArea: {fileID: 1697958222110763047}
   bullet: {fileID: 1728335841751283086, guid: 6eb5830f5fea609468f9522c29789dfb, type: 3}
-  rewards:
-  - {fileID: 3020725798605949018, guid: f7ab6074f9d7b15468af932a43cf0c3c, type: 3}
-  - {fileID: 3020725798605949018, guid: f7ab6074f9d7b15468af932a43cf0c3c, type: 3}
-  - {fileID: 6894747590295734270, guid: 5caea68d8b506d64ebce6534fe85e6c2, type: 3}
+  rewards: []
   isChase: 0
   isAtk: 0
   isDead: 0
-  missile: {fileID: 6789510366546553925, guid: d93a3b17af58eaa48819b3d9fcc8e242, type: 3}
+  missile: {fileID: 229987329533044849, guid: b8ed2ffe9e597114fa67f99ebf2cb33a, type: 3}
+  missile2: {fileID: 6789510366546553925, guid: d93a3b17af58eaa48819b3d9fcc8e242, type: 3}
   missilePortA: {fileID: 2088606295611379077}
   missilePortB: {fileID: 6447348679904057464}
   isLook: 0

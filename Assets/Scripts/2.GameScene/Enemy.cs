@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
         B,
         C,
         C2,
-        D
+        D,
+        D2
     };
 
     public Type enemyType;
@@ -45,7 +46,7 @@ public class Enemy : MonoBehaviour
         meshs = GetComponentsInChildren<MeshRenderer>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        if(enemyType != Type.D)
+        if((enemyType != Type.D || enemyType != Type.D2))
             Invoke("ChaseStart", 2);
     }
 
@@ -67,7 +68,7 @@ public class Enemy : MonoBehaviour
             StopAllCoroutines();
             return;
         }
-        if(nav.enabled && enemyType != Type.D)
+        if(nav.enabled && (enemyType != Type.D || enemyType != Type.D2))
         {
             nav.SetDestination(target.position);
             nav.isStopped = !isChase;
@@ -85,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     void Targeting()
     {
-        if (!isDead && enemyType != Type.D)
+        if (!isDead && (enemyType != Type.D || enemyType != Type.D2))
         {
             float targetRadius = 1.5f;
             float targetRange = 1f;
@@ -123,7 +124,7 @@ public class Enemy : MonoBehaviour
     {
         isChase = false;
         isAtk = true;
-        if(enemyType != Type.D)
+        if((enemyType != Type.D || enemyType != Type.D2))
             anim.SetBool("isAtk",true);
 
         switch (enemyType)

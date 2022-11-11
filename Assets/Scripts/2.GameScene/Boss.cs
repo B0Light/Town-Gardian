@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Boss : Enemy
 {
     public GameObject missile;
+    public GameObject missile2;
     public Transform missilePortA;
     public Transform missilePortB;
 
@@ -71,18 +72,40 @@ public class Boss : Enemy
 
     IEnumerator MissileShot()
     {
-        anim.SetTrigger("doShot");
-        yield return new WaitForSeconds(0.2f);
-        GameObject instantMissileA = Instantiate(missile, missilePortA.position, missilePortA.rotation);
-        BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
-        bossMissileA.target = target;
+        if(enemyType == Type.D)
+        {
+            anim.SetTrigger("doShot");
+            yield return new WaitForSeconds(0.2f);
+            GameObject instantMissileA = Instantiate(missile, missilePortA.position, missilePortA.rotation);
+            BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
+            bossMissileA.target = target;
         
-        yield return new WaitForSeconds(0.3f);
-        GameObject instantMissileB = Instantiate(missile, missilePortB.position, missilePortB.rotation);
-        BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
-        bossMissileB.target = target;
+            yield return new WaitForSeconds(0.3f);
+            GameObject instantMissileB = Instantiate(missile, missilePortB.position, missilePortB.rotation);
+            BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
+            bossMissileB.target = target;
         
-        yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(2.5f);
+        }else if (enemyType == Type.D2)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                yield return new WaitForSeconds(0.5f);
+                Vector3 GrenadePos = Vector3.zero;
+                GrenadePos.y = 15;
+                GameObject instantMissileA = Instantiate(missile2, missilePortA.position, missilePortA.rotation);
+                Rigidbody rbodyMA = instantMissileA.GetComponent<Rigidbody>();
+                rbodyMA.velocity = transform.forward * Random.Range(0, 30);
+                GameObject instantMissileB = Instantiate(missile2, missilePortB.position, missilePortB.rotation);
+                Rigidbody rbodyMB = instantMissileB.GetComponent<Rigidbody>();
+                rbodyMB.velocity = transform.forward * Random.Range(0, 30);
+                rbodyMA.AddForce(GrenadePos, ForceMode.Impulse);
+                rbodyMA.AddTorque(Vector3.back * 20, ForceMode.Impulse);
+                rbodyMB.AddForce(GrenadePos, ForceMode.Impulse);
+                rbodyMB.AddTorque(Vector3.back * 20, ForceMode.Impulse);
+            }
+        }
+        
         StartCoroutine(Think());
     }
     IEnumerator RockShot()

@@ -22,13 +22,13 @@ MonoBehaviour:
     description: Protect Town
     sceneName: 1.MainCamp
   - id: 2
-    name: Level3
-    description: Protect Town3
-    sceneName: Level3
+    name: First Town
+    description: GameScene1
+    sceneName: 2.GameScene
   - id: 3
-    name: Level4
-    description: Protect Town4
-    sceneName: Level4
+    name: Second Town
+    description: GameScene2
+    sceneName: 3.Broken City
   - id: 4
     name: Level5
     description: Protect Town5

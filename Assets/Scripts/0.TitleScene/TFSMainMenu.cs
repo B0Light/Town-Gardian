@@ -23,6 +23,11 @@ public class TFSMainMenu : MainMenu
         Back(titleMenu);
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     protected virtual void Awake()
     {
         ShowTitleScreen();
