@@ -95,7 +95,9 @@ public class Player : MonoBehaviour
     public LevelList levelList;
     private GameDataStore m_DataStore;
     
-    //
+    // 플레이어의 행동에 우선순위가 있다면 더더욱 최적화하기 편할 것 같다.
+    // ex) 구르기 중 제외 언제나 가능: 이동, 회전
+    // ex) 구르기 > 장전 > 스왑 > 공격 > 수류탄 > 상호작용
     // Start is called before the first frame update
     void Awake()
     {
@@ -139,6 +141,9 @@ public class Player : MonoBehaviour
         GetInput();
         Move();
         Turn();
+        // 이 밑으 코드는 죽었을 때 함수의 내용을 실행하지 않음을 확인했다.
+        if (isDead)
+            return;
         Jump();
         Attack();
         Grenade();
@@ -154,7 +159,7 @@ public class Player : MonoBehaviour
         {
             drone.SetActive(true);
         }
-        if(health <= 0 && !isDead)
+        if(health <= 0)
         {
             isDead = true;
             OnDie();
@@ -217,7 +222,8 @@ public class Player : MonoBehaviour
     void Turn()
     {
         // 이동속도가 현저히 적거나 죽은 상태일 경우 회전을 실행하지 않는다.
-        if (moveVec.magnitude < 0.5f || isDead) 
+        // 어차피 죽은 상태라면 moveVec의 크기는 0.5 이하이다.
+        if (moveVec.magnitude < 0.5f) 
         {
             Vector3 lookat = Camera.main.transform.forward;
             lookat.y = 0;
@@ -245,7 +251,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (jDown && !isJump && !isDodge && !isSwap  &&!isShop && !isDead)
+        if (jDown && !isJump && !isDodge && !isSwap  &&!isShop)
         {
             rbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             anim.SetBool("isJump", true); 
@@ -257,7 +263,7 @@ public class Player : MonoBehaviour
     void Grenade()
     {
         if (hasGrendes == 0) return;
-        if (gDown && !isRelaod && !isSwap  &&!isShop && !isDead)
+        if (gDown && !isRelaod && !isSwap  &&!isShop)
         {
             Vector3 GrenadePos = Vector3.zero;
             GrenadePos.y = 15;
@@ -279,7 +285,7 @@ public class Player : MonoBehaviour
         isFireReady = equipWeapon.rate < fireDelay;
 
         // 공격을 실행한다.
-        if (fDown && isFireReady && !isDodge && !isSwap && !isRelaod &&!isShop && !isDead)
+        if (fDown && isFireReady && !isDodge && !isSwap && !isRelaod &&!isShop)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type  == Weapon.Type.Melee ? "doSwing" : "doShot");
@@ -292,7 +298,7 @@ public class Player : MonoBehaviour
     {
         if (equipWeapon == null || equipWeapon.type == Weapon.Type.Melee) return;
         if (ammo == 0) return;
-        if (rDown && !isDodge && !isJump && !isSwap && isFireReady  &&!isShop && !isDead)
+        if (rDown && !isDodge && !isJump && !isSwap && isFireReady  &&!isShop)
         {
             anim.SetTrigger("doReload");
             isRelaod = true;
@@ -306,19 +312,16 @@ public class Player : MonoBehaviour
         if (equipWeapon.type == Weapon.Type.Melee)
             return;
 
+        // Reload의 세부 작업은 Range에서 처리하도록 수정하였다.
         Range range = equipWeapon.GetComponent<Range>();
-        int leftBullet = range._curAmmo;
-        int reAmmo = ammo < range._maxAmo ? ammo : range._maxAmo;
-        range._curAmmo = reAmmo;
-        ammo -= reAmmo;             
-        ammo += leftBullet;         
-                                
+        ammo = range.Reload(ammo);
+
         speed *= 5f;
         isRelaod = false;
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && !isDead && stamina >= 5)
+        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && stamina >= 5)
         {
             stamina -= 35;
             dodgeVec = inputVec;
@@ -338,16 +341,15 @@ public class Player : MonoBehaviour
 
     void Swap()
     {
-        if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0)) return;
-        if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1)) return;
-        if (sDown3 && (!hasWeapons[2] || equipWeaponIndex == 2)) return;
-        if (sDown4 && (!hasWeapons[3] || equipWeaponIndex == 3)) return;
         int weaponIndex = -1;
         if (sDown1) weaponIndex = 0;
         if (sDown2) weaponIndex = 1;
         if (sDown3) weaponIndex = 2;
         if (sDown4) weaponIndex = 3;
-        if ((sDown1 || sDown2 || sDown3|| sDown4) && !isRelaod && !isDodge && !isJump && !isDead)
+        // 뭐라도 눌렸으면 weaponIndex 값이 -1이 아닐 것이다.
+        if (weaponIndex == -1 || !hasWeapons[weaponIndex] || equipWeaponIndex == weaponIndex) return;
+
+        if (!isRelaod && !isDodge && !isJump)
         {
             if(equipWeapon != null)
                 equipWeapon.gameObject.SetActive(false);
@@ -374,6 +376,7 @@ public class Player : MonoBehaviour
     }
     void Interaction()
     {
+        // 죽었을 때는 딱히 상호작용 할 일이 없어보인다.
         if (iDown && nearObject != null && !isJump && !isDodge)
         {
             if (nearObject.tag == "Weapon")
@@ -384,19 +387,7 @@ public class Player : MonoBehaviour
                     hasWeapons[weaponIndex] = true;
                 else
                 {
-                    // upGrade item;
-                    if (weaponIndex == 0)
-                    {
-                        weapons[weaponIndex].GetComponent<Melee>().UpGrade();
-                    }
-                    else if (weaponIndex == 3)
-                    {
-                        weapons[weaponIndex].GetComponent<SpellSword>().UpGrade();
-                    }
-                    else
-                    {
-                         weapons[weaponIndex].GetComponent<Range>().UpGrade(); 
-                    }
+                    weapons[weaponIndex].GetComponent<Weapon>().UpGrade();
                     weaponsLv[weaponIndex]++;
                 }
                 Destroy(nearObject);
@@ -539,6 +530,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        /* 원본코드
         if (other.tag == "Weapon")
             nearObject = null;
         if (other.tag == "Shop" && nearObject != null)
@@ -547,6 +539,16 @@ public class Player : MonoBehaviour
             shop.Exit();
             isShop = false;
             nearObject = null;
+        }*/
+        // 어차피 nearObject는 항상 null이 되어야 한다.
+        // shop이 Exit() 외에는 할 일이 없어서 바로 사용하게 했지만
+        // 추후에 작성될 수도 있을 것 같다.
+        // 다만 추후에 작성될 내용은 Exit() 함수 안에 작성하는 것이 좋아 보인다.
+        nearObject = null;
+        if (other.tag == "Shop")
+        {
+            nearObject.GetComponent<Shop>().Exit();
+            isShop = false;
         }
     }
     
