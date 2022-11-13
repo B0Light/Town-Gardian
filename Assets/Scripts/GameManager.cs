@@ -22,10 +22,6 @@ public class GameManager : MonoBehaviour
     }
 
     public SceneType SType;
-//Cam    
-    public GameObject menuCam;
-    public GameObject gameCam;
-
 //Pos
     public Transform startPos;
     public Transform[] enemySpawn;
@@ -90,8 +86,6 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        menuCam.SetActive(false);
-        gameCam.SetActive(true);
         _uiManager.menuPanel.SetActive(false);
         _uiManager.gamePanel.SetActive(true);
         
@@ -241,6 +235,7 @@ public class GameManager : MonoBehaviour
     void ClearStage()
     {
         clearShip.SetActive(true);
+        player.speed = 40;
     }
     /*
     public int GetStarsForLevel(string levelId)

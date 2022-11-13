@@ -8,13 +8,12 @@ public class FlyCamera : MonoBehaviour
 
     [SerializeField] Vector3 _headCorrection = Vector3.up;
 
-    public float cameraSensitivity = 180;
+    public float cameraSensitivity = 90;
 
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
     void Start() {
-        //Screen.lockCursor = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -30,6 +29,5 @@ public class FlyCamera : MonoBehaviour
         //transform.localRotation *= Quaternion.AngleAxis(rotationY, Vector3.left);
 
         transform.position = _trFollower.position + _headCorrection;
-
     }
 }

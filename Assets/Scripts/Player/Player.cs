@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         manager = FindObjectOfType<GameManager>();
+        speed = 10;
     }
     private void OnDisable()
     {
@@ -186,14 +187,13 @@ public class Player : MonoBehaviour
             moveVec = dodgeVec;
         }
         else if (isSwap || !isFireReady || isDead) {
-            moveVec = Vector3.zero;  //|| !isFireReady
+            moveVec = Vector3.zero; 
         }
         else {
             inputVec = Camera.main.transform.TransformDirection(inputVec);
             inputVec.y = 0;
             inputVec = inputVec.normalized;
-
-
+            
             //이동 방향을 부드럽게 변경한다
             angle = Vector3.Angle(transform.forward, inputVec);
             moveVec = Vector3.Slerp(transform.forward, inputVec, rotateSpeed * Time.deltaTime / angle);
@@ -216,7 +216,6 @@ public class Player : MonoBehaviour
 
     void Turn()
     {
-        // 이동속도가 현저히 적거나 죽은 상태일 경우 회전을 실행하지 않는다.
         if (moveVec.magnitude < 0.5f || isDead) 
         {
             Vector3 lookat = Camera.main.transform.forward;
@@ -224,23 +223,8 @@ public class Player : MonoBehaviour
             transform.forward = lookat;
             return;
         }
-            
-        // 캐릭터를 나아가는 방향으로 보게 한다.
+       
         transform.forward = moveVec;
-         //마우스 회전
-         /*
-         if (!isDead)
-         {
-             Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
-             RaycastHit rayHit;
-             if (Physics.Raycast(ray, out rayHit, 100))
-             {
-                Vector3 nextVec = rayHit.point - transform.position;
-                nextVec.y = 0;
-                transform.LookAt(transform.position + nextVec);
-             }
-         }
-         */
     }
 
     void Jump()
