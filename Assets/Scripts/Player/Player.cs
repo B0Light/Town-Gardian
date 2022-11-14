@@ -25,18 +25,23 @@ public class Player : MonoBehaviour
 
     public State state;
 
-    private int maxAmmo = 9999;
-    private int maxCoin = 9999999;
-    public float maxHealth = 100;
-    public float maxStamina = 100;
+    //private int maxAmmo = 9999;
+    //private int maxCoin = 9999999;
+    //public float maxHealth = 100;
+    //public float maxStamina = 100;
     public int maxHasGrendes;
 
-    public int ammo;
-    public int coin;
-    public float health;
-    public float stamina;
+    //public int ammo;
+    //public int coin;
+    //public float health;
+    //public float stamina;
     public int hasGrendes = 0;
     public float jumpPower = 10;
+
+    public Gauge<int> _ammo;
+    public Gauge<int> _coin;
+    public Gauge<float> _health;
+    public Gauge<float> _stamina;
 
     public float speed;
     public GameObject[] weapons;
@@ -159,7 +164,7 @@ public class Player : MonoBehaviour
         {
             drone.SetActive(true);
         }
-        if(health <= 0)
+        if(_health.Value <= 0)
         {
             isDead = true;
             OnDie();
@@ -206,10 +211,10 @@ public class Player : MonoBehaviour
         }
 
         if (!isBorder)
-            transform.position += moveVec * speed * (wDown && stamina>0 ? 2f : 1f) * Time.deltaTime;
+            transform.position += moveVec * speed * (wDown && _stamina.Value > 0 ? 2f : 1f) * Time.deltaTime;
 
-        if (wDown && !isBorder && stamina >= 0) stamina -= 30 * Time.deltaTime;
-        if (!wDown && stamina < maxStamina) stamina += 10 * Time.deltaTime;    
+        if (wDown && !isBorder && _stamina.Value >= 0) _stamina.Value -= 30 * Time.deltaTime;
+        if (!wDown) _stamina.Value += 10 * Time.deltaTime;    
         
             
 
@@ -297,7 +302,7 @@ public class Player : MonoBehaviour
     void Reload()
     {
         if (equipWeapon == null || equipWeapon.type == Weapon.Type.Melee) return;
-        if (ammo == 0) return;
+        if (_ammo.Value == 0) return;
         if (rDown && !isDodge && !isJump && !isSwap && isFireReady  &&!isShop)
         {
             anim.SetTrigger("doReload");
@@ -314,16 +319,16 @@ public class Player : MonoBehaviour
 
         // Reload의 세부 작업은 Range에서 처리하도록 수정하였다.
         Range range = equipWeapon.GetComponent<Range>();
-        ammo = range.Reload(ammo);
+        _ammo.Value = range.Reload(_ammo.Value);
 
         speed *= 5f;
         isRelaod = false;
     }
     void Dodge()
     {
-        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && stamina >= 5)
+        if (dDown && !isJump && !isDodge && !isSwap &&!isShop && _stamina.Value >= 5)
         {
-            stamina -= 35;
+            _stamina.Value -= 35;
             dodgeVec = inputVec;
             speed *= 2;
             anim.SetTrigger("doDodge");
@@ -423,23 +428,16 @@ public class Player : MonoBehaviour
             switch (item.type)
             {
                 case Item.Type.Ammo:
-                    ammo += item.value;
-                    if (ammo > maxAmmo) 
-                        ammo = maxAmmo;
+                    _ammo.Value += item.value;
                     break;
                 case Item.Type.Coin:
-                    coin += item.value;
-                    if (coin > maxCoin) 
-                        coin = maxCoin;
+                    _coin.Value += item.value;
                     break;
                 case Item.Type.Heart:
-                    health += item.value;
-                    if (health > maxHealth)
-                        health = maxHealth;
+                    _health.Value += item.value;
                     break;
                 case Item.Type.MaxHeart:
-                    maxHealth += item.value;
-                    health += item.value;
+                    _health = new Gauge<float>(_health.GetMaxValue() + item.value, _health.Value + item.value);
                     break;
                 case Item.Type.Grenade:
                     hasGrendes++;
@@ -456,7 +454,7 @@ public class Player : MonoBehaviour
         {
             if(!isDmg){
                 Bullet enemyBullet = other.GetComponent<Bullet>();
-                health -= enemyBullet.dmg;
+                _health.Value -= enemyBullet.dmg;
 
                 bool isBossAtk = (other.name == "Boss Melee Area");
                 StartCoroutine(OnDmg(isBossAtk));
@@ -474,7 +472,7 @@ public class Player : MonoBehaviour
         if(isBossAtk)
             rbody.AddForce(transform.forward * -20, ForceMode.Impulse);
             
-        if (health <= 0 && !isDead)
+        if (_health.Value <= 0 && !isDead)
             OnDie();
         
         yield return new WaitForSeconds(1f);
@@ -488,7 +486,7 @@ public class Player : MonoBehaviour
     }
     public void HitByGrenade(Vector3 explosionPos)
     {
-        health -= 10;
+        _health.Value -= 10;
         OnDmg(false);
         Vector3 reactVec = transform.position - explosionPos;
         reactVec += Vector3.up * 3;
@@ -540,16 +538,16 @@ public class Player : MonoBehaviour
             isShop = false;
             nearObject = null;
         }*/
-        // 어차피 nearObject는 항상 null이 되어야 한다.
         // shop이 Exit() 외에는 할 일이 없어서 바로 사용하게 했지만
         // 추후에 작성될 수도 있을 것 같다.
         // 다만 추후에 작성될 내용은 Exit() 함수 안에 작성하는 것이 좋아 보인다.
-        nearObject = null;
-        if (other.tag == "Shop")
+        if (other.tag == "Shop" && nearObject != null)
         {
             nearObject.GetComponent<Shop>().Exit();
             isShop = false;
         }
+        // 어차피 nearObject는 항상 null이 되어야 한다.
+        nearObject = null;
     }
     
     // return : -180 ~ 180 degree (for unity)

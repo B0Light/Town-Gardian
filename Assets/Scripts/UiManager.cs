@@ -96,17 +96,17 @@ public class UiManager : MonoBehaviour
         weapon4Img.color = new Color(1, 1, 1, _player.hasWeapons[3] ? 1 : 0);
         weaponRImg.color = new Color(1, 1, 1, _player.hasGrendes > 0 ? 1 : 0);
         // Player UI
-        playerHealthText.text = _player.health + "/" + _player.maxHealth;
-        playerCoinText.text = string.Format("{0:n0}", _player.coin);
+        playerHealthText.text = _player._health.ToString();
+        playerCoinText.text = string.Format("{0:n0}", _player._coin.Value);
         if (_player.equipWeapon == null)
-            playerAmmoText.text = "- / " + _player.ammo;
+            playerAmmoText.text = "- / " + _player._ammo.Value;
         else if (_player.equipWeapon.type == Weapon.Type.Melee)
-            playerAmmoText.text = "- / " + _player.ammo;
+            playerAmmoText.text = "- / " + _player._ammo.Value;
         else
         {
             Range range;
             range = _player.equipWeapon.GetComponent<Range>();
-            playerAmmoText.text = range._curAmmo + "/" + _player.ammo;
+            playerAmmoText.text = range._curAmmo + "/" + _player._ammo.Value;
         }
 
         switch (_gameManager.SType)
@@ -138,7 +138,7 @@ public class UiManager : MonoBehaviour
                 {
                     bossHealthGroup.anchoredPosition = Vector3.down * 30;
                     bossHealthBar.localScale =
-                        new Vector3((float)_gameManager.boss.curHealth / _gameManager.boss.maxHealth, 1, 1);
+                        new Vector3((float)_gameManager.boss._health.Value / _gameManager.boss._health.GetMaxValue(), 1, 1);
                 }
                 else
                 {

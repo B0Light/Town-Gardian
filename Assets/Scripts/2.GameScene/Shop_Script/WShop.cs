@@ -19,13 +19,13 @@ public class WShop : Shop
     public override void Buy(int index)
     {
         int price = itemPrice[index];
-        if (price > enterPlayer.coin)
+        if (price > enterPlayer._coin.Value)
         {
             StopCoroutine(Talk());
             StartCoroutine(Talk());
             return;
         }
-        enterPlayer.coin -= price;
+        enterPlayer._coin.Value -= price;
         if (enterPlayer.hasWeapons[index] == false)
         {
             enterPlayer.hasWeapons[index] = true;

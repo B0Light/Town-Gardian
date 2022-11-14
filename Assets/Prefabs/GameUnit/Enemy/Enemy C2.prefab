@@ -383,6 +383,9 @@ MonoBehaviour:
   maxHealth: 200
   curHealth: 200
   score: 1000
+  _health:
+    _maxValue: 200
+    _curValue: 200
   manager: {fileID: 0}
   target: {fileID: 0}
   meleeArea: {fileID: 0}
