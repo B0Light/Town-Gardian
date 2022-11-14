@@ -21,6 +21,19 @@ public class Range : Weapon {
         }
     }
 
+    // 사용 가능한 Ammo의 수를 인수로 받아 _curAmmo를 _maxAmo로 만들고
+    // 남은 양의 Ammo를 반환하는 함수;
+    public int Reload(int canUseAmmo)
+    {
+        int orignAmmoCount = _curAmmo;
+        int reAmmo = canUseAmmo < _maxAmo ? canUseAmmo : _maxAmo;
+
+        _curAmmo = reAmmo;
+        int leftAmmo = canUseAmmo - _curAmmo + orignAmmoCount;
+
+        return leftAmmo;
+    }
+
     public override void UpGrade()
     {
         level++;

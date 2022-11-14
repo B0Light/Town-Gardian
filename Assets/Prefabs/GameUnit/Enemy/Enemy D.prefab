@@ -336,6 +336,9 @@ MonoBehaviour:
   maxHealth: 2000
   curHealth: 2000
   score: 5000
+  _health:
+    _maxValue: 2000
+    _curValue: 2000
   manager: {fileID: 0}
   target: {fileID: 0}
   meleeArea: {fileID: 1697958222110763047}
@@ -348,6 +351,7 @@ MonoBehaviour:
   isAtk: 0
   isDead: 0
   missile: {fileID: 229987329533044849, guid: b8ed2ffe9e597114fa67f99ebf2cb33a, type: 3}
+  missile2: {fileID: 0}
   missilePortA: {fileID: 2088606295611379077}
   missilePortB: {fileID: 6447348679904057464}
   isLook: 0

@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     public float curHealth;
     public int score;
 
+    public Gauge<float> _health;
+
     public GameManager manager;
     public Transform target;
     public BoxCollider meleeArea;
@@ -52,8 +54,7 @@ public class Enemy : MonoBehaviour
 
     public void Upgrade(int stage)
     {
-        maxHealth = maxHealth + stage * 50;
-        curHealth = maxHealth;
+        _health = new Gauge<float>(_health.GetMaxValue() + stage * 50);
     }
 
     void ChaseStart()
@@ -208,7 +209,7 @@ public class Enemy : MonoBehaviour
     public void HitByGrenade(Vector3 explosionPos)
     {
         if (isDead) return;
-        curHealth -= 100;
+        _health.Value -= 100;
         Vector3 reactVec = transform.position - explosionPos;
         StartCoroutine(OnDmg(reactVec, true));
     }
@@ -218,10 +219,10 @@ public class Enemy : MonoBehaviour
         foreach (MeshRenderer mesh in meshs)
             mesh.material.color = Color.red;
         yield return new WaitForSeconds(0.2f);
-        curHealth -= takenDmg;
+        _health.Value -= takenDmg;
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
-        if(curHealth > 0)
+        if(_health.Value > 0)
         {
             foreach (MeshRenderer mesh in meshs)
                 mesh.material.color = Color.white;
@@ -245,27 +246,32 @@ public class Enemy : MonoBehaviour
                     case Type.A:
                         manager.enemyCntA--;
                         deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                        player.coin += 100;
+                        //player.coin += 100;
+                        player._coin.Value += 100;
                         break;
                     case Type.B:
                         manager.enemyCntB--;
                         deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                        player.coin += 1000;
+                        //player.coin += 1000;
+                        player._coin.Value += 1000;
                         break;
                     case Type.C:
                         manager.enemyCntC--;
                         deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                        player.coin += 500;
+                        //player.coin += 500;
+                        player._coin.Value += 500;
                         break;
                     case Type.C2:
                         manager.enemyCntA--;
                         deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                        player.coin += 800;
+                        //player.coin += 800;
+                        player._coin.Value += 800;
                         break;
                     case Type.D:
                         manager.enemyCntD--;
                         deathCoin = UnityEngine.Random.Range(0, rewards.Length);
-                        player.coin += 5000;
+                        //player.coin += 5000;
+                        player._coin.Value += 5000;
                         break;
                 }
                 GameObject coin = Instantiate(rewards[deathCoin], transform.position, Quaternion.identity);

@@ -32785,15 +32785,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followCamera: {fileID: 0}
   score: 0
-  maxHealth: 100
-  maxStamina: 100
   maxHasGrendes: 4
-  ammo: 99
-  coin: 1000000
-  health: 100
-  stamina: 100
   hasGrendes: 0
   jumpPower: 10
+  _ammo:
+    _maxValue: 9999
+    _curValue: 99
+  _coin:
+    _maxValue: 1000000000
+    _curValue: 1000000000
+  _health:
+    _maxValue: 100
+    _curValue: 100
+  _stamina:
+    _maxValue: 100
+    _curValue: 100
   speed: 10
   weapons:
   - {fileID: 2056662708483800282}

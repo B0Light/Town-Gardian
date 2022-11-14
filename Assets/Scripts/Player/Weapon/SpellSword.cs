@@ -19,9 +19,9 @@ public class SpellSword : Weapon
     }
 
     public override void Use() {
-        if (player.stamina >= 10)
+        if (player._stamina.Value >= 10)
         {
-            player.stamina -= 10;
+            player._stamina.Value -= 10;
             curPos = spellPos;
             StopCoroutine("Shot");
             StartCoroutine("Shot");

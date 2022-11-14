@@ -23,7 +23,7 @@ public class PlayerStatisUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthSlider.value = (_player.health / _player.maxHealth) * 100;
-        StaminaSlider.value = (_player.stamina / _player.maxStamina) * 100;
+        healthSlider.value = (_player._health.Value / _player._health.GetMaxValue()) * 100;
+        StaminaSlider.value = (_player._stamina.Value / _player._stamina.GetMaxValue()) * 100;
     }
 }
