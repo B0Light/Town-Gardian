@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20697,7 +20697,12 @@ MonoBehaviour:
   - {fileID: 2498752978995292924, guid: e7972f6f422040f4ba59562c6eb757bf, type: 3}
   - {fileID: 5279740912019157556, guid: 0892a32220cda2e4193c23ec7d7d4616, type: 3}
   - {fileID: 1939442313209172095, guid: ee8b7c65388abe14e832e314d30ace65, type: 3}
-  rewardchests: []
+  rewardchests:
+  - {fileID: 195420, guid: cfbabfde2380e4c028674c89a44b9778, type: 3}
+  - {fileID: 115298, guid: c0bc3086dc3764d48a053dcdf57269a7, type: 3}
+  - {fileID: 144072, guid: c95eb9ba7786e46c4878afbfc7ea360c, type: 3}
+  - {fileID: 159160, guid: b8f424a8fab2843f2b4b2d1460a3bfa6, type: 3}
+  - {fileID: 117430, guid: 0458ef405f9d44ff5b62f4b4c3364424, type: 3}
   stageWall: []
   enemyList: 
   stage: 4
