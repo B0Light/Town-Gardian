@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
 
     void Targeting()
     {
-        if (!isDead && (enemyType != Type.D || enemyType != Type.D2))
+        if (!isDead && !(enemyType == Type.D || enemyType == Type.D2))
         {
             float targetRadius = 1.5f;
             float targetRange = 1f;
@@ -220,6 +220,7 @@ public class Enemy : MonoBehaviour
             mesh.material.color = Color.red;
         yield return new WaitForSeconds(0.2f);
         _health.Value -= takenDmg;
+        if (_health.Value < 0) _health.Value = 0;
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
         if(_health.Value > 0)

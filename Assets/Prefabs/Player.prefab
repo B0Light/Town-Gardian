@@ -32724,7 +32724,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8325294657275810483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.5, y: -3.2, z: -47}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32806,7 +32806,7 @@ MonoBehaviour:
   - {fileID: 2951366326474930865}
   - {fileID: 8866485881625948978}
   - {fileID: 3235328946962407262}
-  weaponsLv: 
+  weaponsLv: 00000000000000000000000000000000
   grenades:
   - {fileID: 3406309160524054239}
   - {fileID: 2540693117741615385}

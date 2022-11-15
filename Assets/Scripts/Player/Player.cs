@@ -238,20 +238,6 @@ public class Player : MonoBehaviour
             
         // 캐릭터를 나아가는 방향으로 보게 한다.
         transform.forward = moveVec;
-         //마우스 회전
-         /*
-         if (!isDead)
-         {
-             Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
-             RaycastHit rayHit;
-             if (Physics.Raycast(ray, out rayHit, 100))
-             {
-                Vector3 nextVec = rayHit.point - transform.position;
-                nextVec.y = 0;
-                transform.LookAt(transform.position + nextVec);
-             }
-         }
-         */
     }
 
     void Jump()

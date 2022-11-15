@@ -21032,8 +21032,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SType: 3
-  menuCam: {fileID: 30953347}
-  gameCam: {fileID: 1070572194}
   startPos: {fileID: 946151748}
   enemySpawn:
   - {fileID: 1452694197}
