@@ -24,7 +24,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene()
     {
-        _uiManager.levelPanel.SetActive(false);
+        //_uiManager.levelPanel.SetActive(false);
         SceneManager.LoadScene(sceneToLoadName);
     }
 

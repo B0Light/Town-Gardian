@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private UiManager _uiManager;
     public Camera followCamera;
     
-    private static Player s_Instance = null;
+    public static Player s_Instance = null;
     
     public int score;
 
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
     private GameObject nearObject;
     // GM approach
     public Weapon equipWeapon;
-    private int equipWeaponIndex = -1;
+    public int equipWeaponIndex = -1;
     private float angle;
 
     //

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Range : Weapon {
 
-    public int _maxAmo;
-    public int _curAmmo;
+    public Gauge<int> _ammo;
 
     [SerializeField] GameObject _bullet;
     [SerializeField] Transform _bulletPos;
@@ -14,8 +13,8 @@ public class Range : Weapon {
     [SerializeField] Transform _bulletCasePos;
 
     public override void Use() {
-        if (_curAmmo > 0) {
-            _curAmmo--;
+        if (_ammo.Value > 0) {
+            _ammo.Value--;
             StopCoroutine("Shot");
             StartCoroutine("Shot");
         }
@@ -25,11 +24,11 @@ public class Range : Weapon {
     // 남은 양의 Ammo를 반환하는 함수;
     public int Reload(int canUseAmmo)
     {
-        int orignAmmoCount = _curAmmo;
-        int reAmmo = canUseAmmo < _maxAmo ? canUseAmmo : _maxAmo;
+        int orignAmmoCount = _ammo.Value;
+        int reAmmo = canUseAmmo < _ammo.GetMaxValue() ? canUseAmmo : _ammo.GetMaxValue();
 
-        _curAmmo = reAmmo;
-        int leftAmmo = canUseAmmo - _curAmmo + orignAmmoCount;
+        _ammo.Value = reAmmo;
+        int leftAmmo = canUseAmmo - _ammo.Value + orignAmmoCount;
 
         return leftAmmo;
     }

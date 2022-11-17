@@ -86,8 +86,8 @@ public class GameManager : MonoBehaviour
 
     public void GameStart()
     {
-        _uiManager.menuPanel.SetActive(false);
-        _uiManager.gamePanel.SetActive(true);
+        //_uiManager.menuPanel.SetActive(false);
+        //_uiManager.gamePanel.SetActive(true);
         
         player.gameObject.SetActive(true);
     }
@@ -97,14 +97,14 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
-        _uiManager.gamePanel.SetActive(false);
-        _uiManager.overPanel.SetActive(true);
-        _uiManager.curScoreText.text = _uiManager.scoText.text;
+        //_uiManager.gamePanel.SetActive(false);
+        //_uiManager.overPanel.SetActive(true);
+        //_uiManager.curScoreText.text = _uiManager.scoText.text;
 
         int maxSco = PlayerPrefs.GetInt("MaxScore");
         if (player.score > maxSco)
         {
-            _uiManager.bestText.gameObject.SetActive(true);
+            //_uiManager.bestText.gameObject.SetActive(true);
             PlayerPrefs.SetInt("MaxScore",player.score);
         }
     }
@@ -131,8 +131,8 @@ public class GameManager : MonoBehaviour
     public virtual void StageEnd()
     {
         player.transform.position = startPos.position;
-        _uiManager.enemyGroup.SetActive(false);
-        _uiManager.BossGroup.SetActive(false);
+        //_uiManager.enemyGroup.SetActive(false);
+        //_uiManager.BossGroup.SetActive(false);
        
         
         if (stage < 10)
@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
         }
         else if(stage == 10)
         {
-            _uiManager.stageText.text = "CLEAR";
+            //_uiManager.stageText.text = "CLEAR";
             ClearStage();
         }
 
@@ -168,8 +168,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator InBattle()
     {
-        _uiManager.enemyGroup.SetActive(true);
-        _uiManager.BossGroup.SetActive(true);
+        //_uiManager.enemyGroup.SetActive(true);
+        //_uiManager.BossGroup.SetActive(true);
         if (stage % bossStage == 0)
         {
             enemyCntD++;

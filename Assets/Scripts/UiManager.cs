@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class UiManager : MonoBehaviour
 {
+    /*
     private GameManager _gameManager;
     private Ship _ship;
     private Player _player;
@@ -145,6 +146,60 @@ public class UiManager : MonoBehaviour
                     bossHealthGroup.anchoredPosition = Vector3.up * 200;
                 }
                 break;
+        }
+    }
+    */
+
+    [SerializeField] Text _hp;
+    [SerializeField] Text _stamina;
+    [SerializeField] Text _ammo;
+
+    [SerializeField] Image _equipWeapon;
+    [SerializeField] Sprite[] _sprWeapons;
+    [SerializeField] Sprite _sprDefault;
+    [SerializeField] InforPanel _inforPanel;
+
+    Player _player;
+
+    private void Start()
+    {
+        _player = Player.s_Instance;
+        _equipWeapon.sprite = _sprDefault;
+    }
+    private void Update()
+    {
+        _hp.text = Player.s_Instance._health.ToString();
+        _stamina.text = (int)Player.s_Instance._stamina.Value + " / " + (int)Player.s_Instance._stamina.GetMaxValue();
+
+
+        int equipIdx = Player.s_Instance.equipWeaponIndex;
+
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            _inforPanel.gameObject.SetActive(true);
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            _inforPanel.gameObject.SetActive(false);
+        }
+
+        if (equipIdx > -1)
+        {
+            _equipWeapon.sprite = _sprWeapons[equipIdx];
+            if (_player.equipWeapon.type == Weapon.Type.Range)
+            {
+                Range range = _player.equipWeapon.GetComponent<Range>();
+                _ammo.text = range._ammo.ToString();
+            }
+            else
+            {
+                _ammo.text = "- / -";
+            }
+        }
+        else
+        {
+            _equipWeapon.sprite = _sprDefault;
+            _ammo.text = "- / -";
+
         }
     }
 }
