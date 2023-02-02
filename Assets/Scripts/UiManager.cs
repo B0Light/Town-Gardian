@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class UiManager : MonoBehaviour
 {
-    #region 뭐지?
     /*
     private GameManager _gameManager;
     private Ship _ship;
@@ -150,7 +149,6 @@ public class UiManager : MonoBehaviour
         }
     }
     */
-    #endregion
 
     [SerializeField] Text _hp;
     [SerializeField] Text _stamina;
