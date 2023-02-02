@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUIInfor>
+	<GUIData name="MessageBox"	path="Assets/Prefabs/GUI_MessageBox.prefab" />
+	<GUIData name="Shop"		path="Assets/Prefabs/GUI_Shop.prefab" />
+	<GUIData name="UnitPlace"	path="Assets/Prefabs/GUI_UnitPlace.prefab" />
+	
+	
+</GUIInfor>
