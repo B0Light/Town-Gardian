@@ -107027,7 +107027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7383388374211975802, guid: f40123e198fb76b458d92d4e54ea11ab, type: 3}
       propertyPath: stage
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7383388374211975802, guid: f40123e198fb76b458d92d4e54ea11ab, type: 3}
       propertyPath: player
